@@ -1,12 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>Hoşgeldiniz {{email}}</h1>
-<p>mail : {{email}}</p>
-<p>şifre : {{password}}</p>
-</body>
-</html>
+{% extends 'layout.html' %}
+
+{% block title %}Anasayfaaa{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/populerconcerts.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/soonconcerts.css') }}">
+{% endblock %}
+
+
+{% block content %}
+    <h2>Popüler Konserler</h2>
+    {% include 'partials/_populerconcerts.html' %}
+
+    <h2>Yaklaşan Konserleriniz</h2>
+    {% include 'partials/_soonconcerts.html' %}
+{% endblock %}

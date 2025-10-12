@@ -11,13 +11,9 @@ def hello():
 def login():
     return render_template("login.html")
 
-@app.route('/index', methods=['POST'])
+@app.route('/index')
 def index():
-     ContexData={
-    'email' :request.form["email"],
-    'password' :request.form["password"],
-    }
-     return render_template("index.html",**ContexData)
+     return render_template("index.html")
 
 # Run the application
 if __name__ == '__main__':
