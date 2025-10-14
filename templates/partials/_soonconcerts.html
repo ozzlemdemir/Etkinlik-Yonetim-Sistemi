@@ -1,16 +1,10 @@
 <div class="cards-container">
+  {% for concert in concert_data %}
   <div class="card">
     <img class="card-img-top" src="{{ url_for('static', filename='images/5.jpg') }}" alt="Concert 1">
-    <div class="card-overlay">Coldplay Live</div>
+    <div class="card-overlay">
+      {{ concert[0] }}
+    </div>
   </div>
-
-  <div class="card">
-    <img class="card-img-top" src="{{ url_for('static', filename='images/2.jpg') }}" alt="Concert 2">
-    <div class="card-overlay">Metallica</div>
-  </div>
-
-  <div class="card">
-    <img class="card-img-top" src="{{ url_for('static', filename='images/3.jpg') }}" alt="Concert 3">
-    <div class="card-overlay">Taylor Swift Tour</div>
-  </div>
+  {%endfor%}
 </div>
