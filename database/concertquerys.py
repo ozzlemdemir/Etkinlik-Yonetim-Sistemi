@@ -5,7 +5,7 @@ class ConcertQueries:
 
     def get_all_concert_ad(self):
        
-        query = 'SELECT "etkinlikAd" FROM etkinlik;'
+        query = 'SELECT "etkinlikAd","img" FROM etkinlik;'
         users = self.db.execute_query(query, fetch=True)
         
      
