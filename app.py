@@ -6,15 +6,18 @@ from flask import Flask,render_template,redirect, url_for, request, make_respons
 
 # Create an instance of the Flask class
 app = Flask(__name__)
+global db_instance
 db_instance = Database(
         host="localhost", 
         database="EtkinlikApp", 
         user="postgres", 
         password="samsun55" 
     )
+
 db_instance.connect()
 if db_instance.conn is not None:
         print("Test Sonucu: ✅ Bağlantı nesnesi (conn) oluşturuldu.")
+        
 @app.route('/')
 def hello():
     return render_template("hello.html")
@@ -27,9 +30,15 @@ def login():
 def index():
     global db_instance
     datab=ConcertQueries(db_instance)
-    concert_data= datab.get_all_concert_ad()
+    concert_data= datab.get_all_concert_ad_populer()
     return render_template("index.html",concert_data=concert_data)
  
+@app.route('/etkinlikler')
+def tumetkinlikler():
+    sorgu=ConcertQueries(db_instance)
+    veriler=sorgu.get_all_concert_ad()
+    return render_template("tum_etkinlikler.html",veriler=veriler)
+
 @app.route('/deneme')
 def deneme():
     global db_instance 
@@ -37,7 +46,7 @@ def deneme():
     users_data = dbase.get_all_users()
 
     if users_data is None:
-        print("⚠️ HATA: Veritabanı sorgusu başarısız oldu. Loglara bakın.")
+        print(" Veritabanı sorgusu başarısız oldu. Loglara bakın.")
         users_data = [] 
     return render_template('deneme.html', users=users_data)
 

@@ -1,0 +1,19 @@
+<div class="cards-container">
+    
+    {% for veri in veriler %}
+    
+    <div class="card">
+        <img class="card-img-top" 
+             src="{{ url_for('static', filename=veri[1]) }}"
+             alt="{{ veriler[0] }}">
+        
+        <div class="card-overlay">
+            
+            <h5 class="card-title">{{ veri[0] }}</h5>
+            
+            </div>
+    </div>
+    
+    {% endfor %}
+    
+</div>

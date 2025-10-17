@@ -10,3 +10,10 @@ class ConcertQueries:
         
      
         return users if users is not None else []
+    def get_all_concert_ad_populer(self):
+       
+        query = 'SELECT "etkinlikAd","img" FROM etkinlik where "populer_mi"=True;'
+        users = self.db.execute_query(query, fetch=True)
+        
+     
+        return users if users is not None else []
