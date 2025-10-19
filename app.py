@@ -1,6 +1,7 @@
 from database.database import Database
 from database.userquerys import UserQueries
 from database.concertquerys import ConcertQueries
+from database.ticketquerys import TicketQueries
 from flask import Flask,render_template,redirect, url_for, request, make_response
  
 
@@ -31,13 +32,29 @@ def index():
     global db_instance
     datab=ConcertQueries(db_instance)
     concert_data= datab.get_all_concert_ad_populer()
-    return render_template("index.html",concert_data=concert_data)
+    soonconcert_data=datab.get_soon_concert_ad()
+    return render_template("index.html",
+                           concert_data=concert_data,
+                           soon_concert=soonconcert_data
+                           )
  
 @app.route('/etkinlikler')
 def tumetkinlikler():
     sorgu=ConcertQueries(db_instance)
+    
+    kategories=sorgu.get_all_kategories()
     veriler=sorgu.get_all_concert_ad()
-    return render_template("tum_etkinlikler.html",veriler=veriler)
+    return render_template("tum_etkinlikler.html",
+                           veriler=veriler,
+                           kategories=kategories,
+                           )
+
+@app.route('/biletler')
+def biletbyid():
+    sorgu=TicketQueries(db_instance)
+    biletler=sorgu.kisiye_gore_bilet()
+    return render_template("biletler.html",biletler=biletler)
+
 
 @app.route('/deneme')
 def deneme():

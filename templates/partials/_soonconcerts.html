@@ -1,9 +1,9 @@
 <div class="cards-container">
-  {% for concert in concert_data %}
+  {% for soon in soon_concert %}
   <div class="card">
-    <img class="card-img-top"  src="{{ url_for('static', filename=concert[1]) }}" alt="Concert 1">
+    <img class="card-img-top"  src="{{ url_for('static', filename=soon[1]) }}" alt="Concert 1">
     <div class="card-overlay">
-      {{ concert[0] }}
+      {{ soon[0] }}
     </div>
   </div>
   {%endfor%}

@@ -7,6 +7,4 @@ class UserQueries:
        
         query = 'SELECT userID, name, mail FROM users;'
         users = self.db.execute_query(query, fetch=True)
-        
-     
         return users if users is not None else []

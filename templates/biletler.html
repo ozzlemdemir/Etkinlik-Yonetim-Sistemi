@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block title %}BİLETLERİNİZ{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/populerconcerts.css') }}">
+{% endblock %}
+
+
+{% block content %}
+    {% include 'partials/_biletler.html' %}
+{% endblock %}

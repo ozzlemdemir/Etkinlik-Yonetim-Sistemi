@@ -8,5 +8,17 @@
 
 
 {% block content %}
-    {% include 'partials/_tumetkinlikler.html' %}
+<div class="main-content-wrapper flex flex-row">
+    
+    <aside class="sidebar-kategori w-1/4"> 
+        <h2>KATEGORİLER</h2>
+        {% include 'partials/_kategoriler.html' %} 
+    </aside>
+
+    <main class="etkinlik-listesi w-3/4">
+        <h2>Tüm Etkinlikler</h2>
+        {% include 'partials/_tumetkinlikler.html' %}
+    </main>
+    
+</div>
 {% endblock %}
