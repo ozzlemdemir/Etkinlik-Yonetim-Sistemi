@@ -25,6 +25,7 @@ class ConcertQueries:
         return kategoriler if kategoriler is not None else []
         
     def kategoriye_gore_concert(self,kategori_id=None):
-        query='SELECT e."etkinlikAd", e.img, k.kategori_adi FROM etkinlik e JOIN kategori k ON e.kategoriID = k.kategoriID WHERE e.kategoriID = :kategori_id'
-        filtrelenmis_concert=self.db.execute_query(query,fetch=True)
+        query='SELECT e."etkinlikAd", e.img, k.kategori_adi FROM etkinlik e JOIN kategori k ON e.kategoriID = k.kategoriID WHERE e.kategoriID = %s'
+        filtrelenmis_concert = self.db.execute_query(query, (kategori_id,), fetch=True)
         return filtrelenmis_concert if filtrelenmis_concert is not None else []
+    

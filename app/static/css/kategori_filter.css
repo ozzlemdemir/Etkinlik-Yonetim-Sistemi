@@ -1,0 +1,130 @@
+/* === GENEL AYARLAR === */
+body {
+  background-color: #211822; /* mor arka plan */
+  font-family: "Poppins", sans-serif;
+  color: #2d1e2f;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* === ANA İÇERİK === */
+.main-content-wrapper {
+  display: flex;
+  flex-grow: 1;
+  background-color: #faf9f9;
+  border-radius: 20px;
+  padding: 30px;
+  margin: 40px auto;
+  box-shadow: 0 8px 25px rgba(45, 30, 47, 0.25);
+  width: 85%;
+  max-width: 1400px;
+  gap: 30px;
+}
+
+/* === SOL KATEGORİ PANELİ === */
+.sidebar-kategori {
+  width: 20%;
+  background: #2d1e2f;
+  color: #faf9f9;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  overflow-y: auto;
+  height: calc(80vh - 60px);
+}
+
+.sidebar-kategori h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #c589a3;
+  padding-bottom: 10px;
+  color: #f2d7d9;
+}
+
+.kategori-listesi {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.kategori-btn {
+  background: transparent;
+  border: 1px solid #c589a3;
+  border-radius: 10px;
+  padding: 10px 15px;
+  text-align: left;
+  font-size: 1rem;
+  color: #f2d7d9;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.kategori-btn:hover {
+  background-color: #c589a3;
+  color: #2d1e2f;
+}
+
+.kategori-btn.active {
+  background-color: #f2d7d9;
+  color: #2d1e2f;
+}
+
+/* === SAĞ ETKİNLİK ALANI === */
+.etkinlik-listesi {
+  width: 80%;
+  background-color: transparent; /* beyazlığı kaldırdık */
+  overflow-y: auto;
+  max-height: calc(80vh - 60px);
+  padding-right: 10px;
+}
+
+.etkinlik-listesi h2 {
+  font-size: 1.4rem;
+  color: #2b2b2b;
+  margin-bottom: 20px;
+}
+
+/* === ETKİNLİK KARTLARI === */
+#etkinlikler-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: flex-start;
+}
+
+#etkinlikler-container p {
+  font-size: 1.1rem;
+  color: #777;
+}
+
+/* === FOOTER === */
+footer {
+  background: #2d1e2f;
+  color: #faf9f9;
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9rem;
+  border-top: 2px solid #c589a3;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 992px) {
+  .main-content-wrapper {
+    flex-direction: column;
+    width: 90%;
+    height: auto;
+  }
+
+  .sidebar-kategori {
+    width: 100%;
+    height: auto;
+  }
+
+  .etkinlik-listesi {
+    width: 100%;
+    max-height: none;
+  }
+}

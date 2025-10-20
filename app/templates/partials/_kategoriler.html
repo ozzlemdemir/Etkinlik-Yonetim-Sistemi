@@ -1,3 +1,10 @@
+<ul id="kategori-listesi">
+  <li><button class="kategori-btn" data-id="0">Tümü </button></li>
   {% for kategori in kategoriler %}
-  <p> {{ kategori[1] }}</p>
-  {%endfor%}
+  <li>
+    <button class="kategori-btn" data-id="{{ kategori[0] }}">
+      {{ kategori[1] }}
+    </button>
+  </li>
+  {% endfor %}
+</ul>

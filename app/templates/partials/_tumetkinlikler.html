@@ -1,19 +1,12 @@
-<div class="cards-container">
-    
-    {% for veri in tumkonserler %}
-    
-    <div class="card">
-        <img class="card-img-top" 
-             src="{{ url_for('static', filename=veri[1]) }}"
-             alt="{{ veri[0] }}">
-        
-        <div class="card-overlay">
-            
-            <h5 class="card-title">{{ veri[0] }}</h5>
-            
-            </div>
+<div id="etkinlikler-container" class="cards-container">
+  {% for veri in tumkonserler %}
+  <div class="card">
+    <img class="card-img-top"
+         src="{{ url_for('static', filename=veri[1]) }}"
+         alt="{{ veri[0] }}">
+    <div class="card-overlay">
+      <h5 class="card-title">{{ veri[0] }}</h5>
     </div>
-    
-    {% endfor %}
-    
+  </div>
+  {% endfor %}
 </div>

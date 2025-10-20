@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request, make_response
+from flask import Blueprint, render_template, redirect, url_for, request, make_response,jsonify
 
 from app.services.concert_service import ConcertService
 from app.services.ticket_service import TicketService
@@ -29,9 +29,15 @@ def tumetkinlikler():
     service = ConcertService()
     tumkonserler=service.get_all_concert_adi()
     kategoriler=service.kategori_getir()
-    return render_template("tum_etkinlikler.html", tumkonserler=tumkonserler,
+    return render_template("tum_etkinlikler.html", 
+                           tumkonserler=tumkonserler,
                            kategoriler=kategoriler)
-
+    
+@app_routes.route('/kategori/<int:kategori_id>')
+def kategoriye_gore_etkinlik(kategori_id):
+    service=ConcertService()
+    etkinlikler = service.kategoriye_gore_etkinli_getir(kategori_id)
+    return jsonify(etkinlikler)
 
 @app_routes.route('/biletler')
 def biletbyid():

@@ -4,21 +4,26 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/populerconcerts.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kategori_filter.css') }}">
 {% endblock %}
-
 
 {% block content %}
 <div class="main-content-wrapper flex flex-row">
-    
-    <aside class="sidebar-kategori w-1/4"> 
-        <h2>KATEGORİLER</h2>
-        {% include 'partials/_kategoriler.html' %} 
-    </aside>
 
-    <main class="etkinlik-listesi w-3/4">
-        <h2>Tüm Etkinlikler</h2>
-        {% include 'partials/_tumetkinlikler.html' %}
-    </main>
-    
+  <aside class="sidebar-kategori w-1/4 p-4 border-r">
+    <h2>KATEGORİLER</h2>
+    {% include 'partials/_kategoriler.html' %}
+  </aside>
+
+  <main class="etkinlik-listesi w-3/4 p-4" id="etkinlikler-container">
+  
+  {% include 'partials/_tumetkinlikler.html' %}
+</main>
+
+
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/kategori_filter.js') }}"></script>
 {% endblock %}
