@@ -1,7 +1,8 @@
-from database.database import Database
+from app.database.database import Database
 class ConcertQueries:
-    def __init__(self, db_conn):
-        self.db = db_conn
+    def __init__(self, db):
+        self.db = db
+        
 
     def get_all_concert_ad(self):
         query = 'SELECT "etkinlikAd","img" FROM etkinlik;'

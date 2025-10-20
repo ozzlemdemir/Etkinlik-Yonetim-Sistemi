@@ -1,11 +1,11 @@
 <div class="cards-container">
     
-    {% for veri in veriler %}
+    {% for veri in tumkonserler %}
     
     <div class="card">
         <img class="card-img-top" 
              src="{{ url_for('static', filename=veri[1]) }}"
-             alt="{{ veriler[0] }}">
+             alt="{{ veri[0] }}">
         
         <div class="card-overlay">
             
