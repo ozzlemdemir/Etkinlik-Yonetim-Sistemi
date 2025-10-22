@@ -10,12 +10,12 @@ class ConcertQueries:
         return concerts if concerts is not None else []
     
     def get_soon_concert_ad(self):
-        query = 'SELECT e."etkinlikAd", e.img, b.satin_alma_tarihi FROM biletler b JOIN etkinlik e ON b.etkinlikID = e."etkinlikID" WHERE b.userid = 1 AND e.tarih < \'2027-11-19\' ORDER BY e.tarih ASC;'
+        query = 'SELECT e."etkinlikID" , e."etkinlikAd", e.img, b.satin_alma_tarihi FROM biletler b JOIN etkinlik e ON b.etkinlikID = e."etkinlikID" WHERE b.userid = 1 AND e.tarih < \'2027-11-19\' ORDER BY e.tarih ASC;'
         soonconcerts = self.db.execute_query(query, fetch=True)
         return soonconcerts if soonconcerts is not None else []
     
     def get_all_concert_ad_populer(self):
-        query = 'SELECT "etkinlikAd","img" FROM etkinlik where "populer_mi"=True;'
+        query = 'SELECT "etkinlikAd","img" ,"etkinlikID" FROM etkinlik where "populer_mi"=True;'
         users = self.db.execute_query(query, fetch=True)
         return users if users is not None else []
     
@@ -28,4 +28,8 @@ class ConcertQueries:
         query='SELECT e."etkinlikAd", e.img, k.kategori_adi FROM etkinlik e JOIN kategori k ON e.kategoriID = k.kategoriID WHERE e.kategoriID = %s'
         filtrelenmis_concert = self.db.execute_query(query, (kategori_id,), fetch=True)
         return filtrelenmis_concert if filtrelenmis_concert is not None else []
+    
+    def get_concert_by_id(self,concert_id=None):
+        query='SELECT etkinlikAd, img, kontenjan, tarih, adres, ucret FROM etkinlikler WHERE "etkinlikID"=%s'
+        detay_concert=self.db.execute_query(query,(concert_id,),fetch=True)
     

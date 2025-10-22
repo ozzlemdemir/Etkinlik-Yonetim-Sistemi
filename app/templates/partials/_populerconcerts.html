@@ -1,19 +1,17 @@
 <div class="cards-container">
-    
     {% for concert in concert_data %}
     
-    <div class="card">
-        <img class="card-img-top" 
-             src="{{ url_for('static', filename=concert[1]) }}"
-             alt="{{ concert[0] }}">
-        
-        <div class="card-overlay">
+    <a href="{{ url_for('app_routes.etkinlik_detay', etkinlik_id=concert[2]) }}" class="card-link">
+        <div class="card">
+            <img class="card-img-top" 
+                 src="{{ url_for('static', filename=concert[1]) }}"
+                 alt="{{ concert[0] }}">
             
-            <h5 class="card-title">{{ concert[0] }}</h5>
-            
+            <div class="card-overlay">
+                <h5 class="card-title">{{ concert[0] }}</h5>
             </div>
-    </div>
+        </div>
+    </a>
     
     {% endfor %}
-    
 </div>

@@ -1,10 +1,20 @@
+
+
 <div class="cards-container">
-  {% for soon in soon_concert %}
-  <div class="card">
-    <img class="card-img-top"  src="{{ url_for('static', filename=soon[1]) }}" alt="Concert 1">
-    <div class="card-overlay">
-      {{ soon[0] }}
-    </div>
-  </div>
-  {%endfor%}
+    {% for soon in soon_concert %}
+    
+    <a href="{{ url_for('app_routes.etkinlik_detay', etkinlik_id=soon[0]) }}" class="card-link">
+        <div class="card">
+            <img class="card-img-top" 
+                 src="{{ url_for('static', filename=soon[2]) }}"
+                 alt="{{ soon[1] }}">
+            
+            <div class="card-overlay">
+                <h5 class="card-title">{{ soon[1] }}</h5>
+            </div>
+        </div>
+    </a>
+    
+    {% endfor %}
 </div>
+

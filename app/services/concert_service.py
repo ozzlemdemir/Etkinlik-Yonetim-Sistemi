@@ -22,3 +22,6 @@ class ConcertService:
     def kategoriye_gore_etkinli_getir(self,kategori_id):
         return self.query.kategoriye_gore_concert(kategori_id)
     
+    def  etkinlik_getir_by_id(self,etkinlik_id):
+        return self.query.get_concert_by_id(etkinlik_id)
+    

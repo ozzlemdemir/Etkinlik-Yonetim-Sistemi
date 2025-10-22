@@ -1,0 +1,63 @@
+body {
+  transform: scale(0.75); /* %75 küçültme */
+  transform-origin: top left; /* sol üstten ölçekle */
+  width: 133.33%; /* scale = 0.75 olduğunda %100 görünmesi için */
+}
+.biletler-container {
+  width: 90%;
+  margin: 50px auto;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  color: #2d1e2f;
+}
+
+.biletler-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #2a182c;
+  font-size: 1.8rem;
+}
+
+.biletler-tablosu {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.biletler-tablosu thead {
+  background: #2d1e2f;
+}
+
+.biletler-tablosu th, 
+.biletler-tablosu td {
+  padding: 15px 20px;
+  text-align: left;
+}
+
+.biletler-tablosu th {
+  color: #f2d7d9;
+  font-weight: 600;
+}
+
+.biletler-tablosu tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.biletler-tablosu tr:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transition: background 0.3s ease;
+}
+
+.konser-ad {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.konser-ad img {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+}

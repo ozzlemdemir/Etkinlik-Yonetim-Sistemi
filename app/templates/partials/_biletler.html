@@ -1,20 +1,28 @@
-<div class="cards-container">
-    
-    {% for bilet in biletler %}
-    
-    <div class="card">
-        <img class="card-img-top" 
-             src="{{ url_for('static', filename=bilet[1]) }}"
-             alt="{{ bilet[0] }}">
-        
-        <div class="card-overlay">
-            
-            <h5 class="card-title">{{ bilet[0] }}</h5>
-            <h2>Satın alınma tarihi : {{ bilet[2] }}</h2>
-            
-            </div>
-    </div>
-    
-    {% endfor %}
-    
+<div class="biletler-container">
+  <h2>Satın Aldığın Biletler</h2>
+  <table class="biletler-tablosu">
+    <thead>
+      <tr>
+        <th>Konser Adı</th>
+        <th>Konser Tarihi</th>
+        <th>Konser Yeri</th>
+        <th>Ücret</th>
+        <th>Satın Alınma Tarihi</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for bilet in biletler %}
+      <tr>
+        <td class="konser-ad">
+          <img src="{{ url_for('static', filename=bilet[1]) }}" alt="{{ bilet[0] }}">
+          <span>{{ bilet[0] }}</span>
+        </td>
+        <td>{{ bilet[2] }}</td>
+        <td>{{ bilet[3] }}</td>
+        <td>{{ bilet[4] }} ₺</td>
+        <td>{{ bilet[5] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>

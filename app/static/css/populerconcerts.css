@@ -1,3 +1,8 @@
+body {
+  transform: scale(0.75); /* %75 küçültme */
+  transform-origin: top left; /* sol üstten ölçekle */
+  width: 133.33%; /* scale = 0.75 olduğunda %100 görünmesi için */
+}
 
 .card {
   width: 18rem;
@@ -41,3 +46,15 @@
   flex-wrap: wrap;
   margin-top: 40px;
 }
+/* === SAĞ ETKİNLİK ALANI === */
+.etkinlik-listesi {
+  width: 78%;
+  background: transparent;
+  overflow-y: auto;
+  max-height: calc(80vh - 60px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: flex-start;
+}
+

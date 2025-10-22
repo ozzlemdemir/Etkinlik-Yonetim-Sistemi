@@ -44,3 +44,10 @@ def biletbyid():
     service=TicketService()
     biletler=service.kisiye_gore_bilet_getir()
     return render_template("biletler.html", biletler=biletler)
+
+@app_routes.route('/etkinlik_detay/<int:etkinlik_id>')
+def etkinlik_detay(etkinlik_id):
+    service=ConcertService()
+    etkinlik = service.etkinlik_getir_by_id(etkinlik_id)
+    return render_template('etkinlik_detay.html', etkinlik=etkinlik)
+
