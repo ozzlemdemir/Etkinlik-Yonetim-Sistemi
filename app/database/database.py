@@ -31,23 +31,26 @@ class Database:
         return self.conn
             
             
-    def execute_query(self, query, params=None, fetch=False):
+    def execute_query(self, query, params=None, fetch=False, fetch_mode="all"):
         if self.conn is None:
             print("Veritabanı bağlantısı kurulmamış.")
             return None 
-            
+
         try:
-            cur = self.conn.cursor() 
+            cur = self.conn.cursor()
             cur.execute(query, params)
-            
+
             if fetch:
-                data = cur.fetchall()
+                if fetch_mode == "one":
+                    data = cur.fetchone()
+                else:
+                    data = cur.fetchall()
                 cur.close()
                 return data
             else:
                 self.conn.commit()
                 cur.close()
-                
+
         except Exception as e:
             print("Sorgu hatası:", e)
-            return None # Hata durumunda None döndür
+            return None

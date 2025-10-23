@@ -1,13 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div>
-        <h3>EMPTİNESSS İS FİLLİNGGG MEEEEEEE</h3>
+{% extends 'layout.html' %}
+
+{% block title %}{{ etkinlik[0] }} | Etkinlik Detayı{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/etkinlik_detay.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="etkinlik-hero">
+  <img src="{{ url_for('static', filename=etkinlik[1].strip()) }}" alt="{{ etkinlik[0].strip() }}" class="hero-image">
+
+  <div class="overlay"></div>
+
+  <div class="etkinlik-info">
+    <h1 class="etkinlik-title">{{ etkinlik[0].strip() }}</h1>
+    <div class="etkinlik-meta">
+      <p><strong>Tarih:</strong> {{ etkinlik[3] }}</p>
+      <p><strong>Adres:</strong> {{ etkinlik[4].strip() }}</p>
+      <p><strong>Ücret:</strong> {{ etkinlik[5] }} ₺</p>
+      <p><strong>Kalan Kontenjan:</strong> {{ etkinlik[2] }}</p>
     </div>
-</body>
-</html>
+    <button class="bilet-btn">🎟️ Bilet Satın Al</button>
+  </div>
+</div>
+{% endblock %}
+

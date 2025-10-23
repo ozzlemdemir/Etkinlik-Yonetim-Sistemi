@@ -1,0 +1,68 @@
+/* Sayfa düzeni */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Resim tüm ekranı kaplasın */
+.etkinlik-hero {
+  position: relative;
+  height: 100vh; /* Tüm ekran yüksekliği */
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Hafif karartma efekti (isteğe bağlı) */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4); /* siyah şeffaf katman */
+}
+
+/* Yazıların görünümü */
+.etkinlik-info {
+  position: absolute;
+  top: 50%;
+  right: 8%;
+  transform: translateY(-50%);
+  color: #fff;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.etkinlik-info h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.etkinlik-info p {
+  font-size: 1.2rem;
+  margin: 0.4rem 0;
+}
+
+/* Bilet butonu */
+.bilet-btn {
+  margin-top: 1.5rem;
+  background: #ff4b2b;
+  color: white;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: 0.3s;
+}
+
+.bilet-btn:hover {
+  background: #ff6a3c;
+  transform: scale(1.05);
+}
+
+/* Navbar ve footer’ı korumak için */
+nav, footer {
+  z-index: 1000;
+  position: relative;
+}

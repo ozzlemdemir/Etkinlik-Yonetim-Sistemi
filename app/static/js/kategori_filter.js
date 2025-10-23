@@ -31,7 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Yeni kartları oluştur
-      data.forEach(etkinlik => {
+            data.forEach(etkinlik => {
+        const link = document.createElement("a");
+        link.href = `/etkinlik_detay/${etkinlik[2]}`; // etkinlikID burada 3. sütun
+        link.classList.add("card-link");
+
         const card = document.createElement("div");
         card.classList.add("card");
         card.innerHTML = `
@@ -39,7 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="card-overlay">
             <h5 class="card-title">${etkinlik[0]}</h5>
           </div>`;
-        etkinliklerContainer.appendChild(card);
+
+        link.appendChild(card);
+        etkinliklerContainer.appendChild(link);
       });
     });
   });

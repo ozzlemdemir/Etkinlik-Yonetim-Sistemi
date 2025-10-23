@@ -51,3 +51,4 @@ def etkinlik_detay(etkinlik_id):
     etkinlik = service.etkinlik_getir_by_id(etkinlik_id)
     return render_template('etkinlik_detay.html', etkinlik=etkinlik)
 
+
