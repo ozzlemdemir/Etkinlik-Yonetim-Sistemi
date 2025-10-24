@@ -55,7 +55,7 @@ class ConcertQueries:
             return []
     
     def get_concert_by_id(self,concert_id=None):
-        query='SELECT "etkinlikAd", img, kontenjan, tarih, adres, ucret FROM etkinlik WHERE "etkinlikID"=%s'
+        query='SELECT "etkinlikAd", img, kontenjan, tarih, adres, ucret,detay_bilgi FROM etkinlik WHERE "etkinlikID"=%s'
         try:
             detay_konser = self.db.execute_query(query, (concert_id,), fetch=True, fetch_mode="one")#tek satır veri döndüğü için fetch==one dedik
             return detay_konser if detay_konser is not None else []

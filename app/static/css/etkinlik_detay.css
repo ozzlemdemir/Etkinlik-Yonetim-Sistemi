@@ -1,68 +1,83 @@
-/* Sayfa düzeni */
+/* Genel ayarlar */
 body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  background: #000; /* arka plan siyah kalsın, resim yüklenmezse boşluk görünmesin */
 }
 
 /* Resim tüm ekranı kaplasın */
 .etkinlik-hero {
   position: relative;
-  height: 100vh; /* Tüm ekran yüksekliği */
   width: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  height: calc(100vh - 160px); /* Navbar ve footer alanını düşür */
+  background: no-repeat center center / cover;
 }
 
-/* Hafif karartma efekti (isteğe bağlı) */
+/* Eğer resim <img> etiketiyle geldiyse: */
+.etkinlik-hero img.hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* resmi kırpmadan ekrana tam sığdırır */
+  z-index: 1;
+}
+
+/* Hafif karartma efekti */
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4); /* siyah şeffaf katman */
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 2;
 }
 
-/* Yazıların görünümü */
+/* Yazılar */
 .etkinlik-info {
   position: absolute;
   top: 50%;
   right: 8%;
   transform: translateY(-50%);
   color: #fff;
+  z-index: 3;
   text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.35);
+  padding: 1.5rem 2rem;
+  border-radius: 15px;
 }
 
 .etkinlik-info h1 {
-  font-size: 3rem;
+  font-size: 2.8rem;
   font-weight: 700;
   margin-bottom: 1rem;
 }
 
 .etkinlik-info p {
   font-size: 1.2rem;
-  margin: 0.4rem 0;
+  margin: 0.3rem 0;
 }
 
 /* Bilet butonu */
 .bilet-btn {
   margin-top: 1.5rem;
-  background: #ff4b2b;
+  background: linear-gradient(45deg, #ff4b2b, #ff416c);
   color: white;
-  padding: 0.8rem 2rem;
+  padding: 0.9rem 2rem;
   border: none;
   border-radius: 50px;
   cursor: pointer;
   font-size: 1.1rem;
   transition: 0.3s;
+  box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
 }
 
 .bilet-btn:hover {
-  background: #ff6a3c;
   transform: scale(1.05);
 }
 
-/* Navbar ve footer’ı korumak için */
+/* Navbar ve footer sabit kalsın */
 nav, footer {
-  z-index: 1000;
   position: relative;
+  z-index: 10;
 }

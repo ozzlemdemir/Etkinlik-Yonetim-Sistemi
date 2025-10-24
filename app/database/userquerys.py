@@ -13,3 +13,21 @@ class UserQueries:
             print("Sorgu hatası:", e)
             self.db.conn.rollback()  
             return []
+        
+    def get_user_by_email_and_password(self, email, password):
+        query = "SELECT * FROM users WHERE mail = %s AND password = %s;"
+        try:
+            result = self.db.execute_query(query, (email, password), fetch=True)
+            return result[0] if result else None
+        except Exception as e:
+            print("Giriş sorgusu hatası:", e)
+            return None
+    
+    def get_user_by_id(self, user_id):
+        query = "SELECT userID, name FROM users WHERE userID = %s;"
+        try:
+            user = self.db.execute_query(query, (user_id,), fetch=True)
+            return user[0] if user else None
+        except Exception as e:
+            print("Kullanıcı çekme hatası:", e)
+            return None

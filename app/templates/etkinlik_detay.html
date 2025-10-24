@@ -15,10 +15,11 @@
   <div class="etkinlik-info">
     <h1 class="etkinlik-title">{{ etkinlik[0].strip() }}</h1>
     <div class="etkinlik-meta">
+      <p><i>"{{ etkinlik[6] }}"</i></p>
       <p><strong>Tarih:</strong> {{ etkinlik[3] }}</p>
       <p><strong>Adres:</strong> {{ etkinlik[4].strip() }}</p>
       <p><strong>Ücret:</strong> {{ etkinlik[5] }} ₺</p>
-      <p><strong>Kalan Kontenjan:</strong> {{ etkinlik[2] }}</p>
+      <p><strong>Kalan Bilet:</strong> {{ etkinlik[2] }}</p>
     </div>
     <button class="bilet-btn">🎟️ Bilet Satın Al</button>
   </div>
