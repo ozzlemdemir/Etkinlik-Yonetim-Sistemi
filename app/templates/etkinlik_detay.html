@@ -21,7 +21,14 @@
       <p><strong>Ücret:</strong> {{ etkinlik[5] }} ₺</p>
       <p><strong>Kalan Bilet:</strong> {{ etkinlik[2] }}</p>
     </div>
-    <button class="bilet-btn">🎟️ Bilet Satın Al</button>
+    {% if etkinlik[2] > 0 %}
+        <a href="{{ url_for('app_routes.bilet_odeme', etkinlik_id=etkinlik_id) }}" 
+           target="_blank" class="bilet-btn">
+           🎟️ Bilet Al
+        </a>
+    {% else %}
+        <button class="bilet-btn" disabled>🎟️ Bilet Tükendi</button>
+    {% endif %}
   </div>
 </div>
 {% endblock %}

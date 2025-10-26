@@ -1,5 +1,4 @@
 from flask import Blueprint, flash, render_template, redirect, url_for, request, make_response,jsonify,session
-
 from app.services.concert_service import ConcertService
 from app.services.ticket_service import TicketService
 from app.services.user_service import UserService
@@ -9,7 +8,7 @@ app_routes = Blueprint('app_routes', __name__)
 
 @app_routes.route('/')
 def hello():
-    return render_template("hello.html")
+    return redirect(url_for('app_routes.login'))
 
 
 @app_routes.route("/login", methods=["GET", "POST"])
@@ -38,7 +37,7 @@ def login():
 def index():
     user_name = session.get("user_name")
     service = ConcertService()
-    concert_data =  service.get_concert_adi_populer()
+    concert_data = service.get_concert_adi_populer()
     soon_concert=service.get_soon_corcert_adi()
     return render_template("index.html",concert_data=concert_data,
                            soon_concert=soon_concert,
@@ -61,14 +60,45 @@ def kategoriye_gore_etkinlik(kategori_id):
 
 @app_routes.route('/biletler')
 def biletbyid():
+    user_id=session.get("user_id")
     service=TicketService()
-    biletler=service.kisiye_gore_bilet_getir()
+    biletler=service.kisiye_gore_bilet_getir(user_id)
     return render_template("biletler.html", biletler=biletler)
 
 @app_routes.route('/etkinlik_detay/<int:etkinlik_id>')
 def etkinlik_detay(etkinlik_id):
     service=ConcertService()
     etkinlik = service.etkinlik_getir_by_id(etkinlik_id)
-    return render_template('etkinlik_detay.html', etkinlik=etkinlik)
+    return render_template('etkinlik_detay.html', etkinlik=etkinlik,etkinlik_id=etkinlik_id)
 
+@app_routes.route('/bilet_odeme/<int:etkinlik_id>', methods=['GET', 'POST'])
+def bilet_odeme(etkinlik_id):
+    user_id = session.get("user_id")
+    if not user_id:
+        flash("Lütfen giriş yapın.", "danger")
+        return redirect(url_for('app_routes.login'))
 
+    service = ConcertService()
+    etkinlik = service.etkinlik_getir_by_id(etkinlik_id)
+
+    if request.method == "POST":
+        card_name = request.form.get('card_name')
+        card_number = request.form.get('card_number')
+        expiry = request.form.get('expiry')
+        cvc = request.form.get('cvc')
+
+        if not all([card_name, card_number, expiry, cvc]):
+            flash("Lütfen tüm kart bilgilerini giriniz.", "danger")
+            return redirect(request.referrer)
+
+        ticketService = TicketService()
+        success = ticketService.yeni_bilet_ekle(user_id, etkinlik_id)
+
+        if success:
+            flash("Bilet başarıyla satın alındı!", "success")
+            return redirect(url_for('app_routes.biletbyid'))
+        else:
+            flash("Bilet alınamadı, lütfen tekrar deneyin.", "danger")
+            return redirect(request.referrer)
+
+    return render_template('bilet_odeme.html', etkinlik=etkinlik, user_id=user_id, etkinlik_id=etkinlik_id)

@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+{% block title %}Bilet Ödeme | {{ etkinlik[0] }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bilet_odeme.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="bilet-odeme-container">
+    <h2>🎟️ {{ etkinlik[0] }} - Bilet Ödeme</h2>
+    <div class="etkinlik-bilgi">
+        <p><strong>Tarih:</strong> {{ etkinlik[3] }}</p>
+        <p><strong>Adres:</strong> {{ etkinlik[4] }}</p>
+        <p><strong>Ücret:</strong> {{ etkinlik[5] }} ₺</p>
+        <p><strong>Kalan Bilet:</strong> {{ etkinlik[2] }}</p>
+    </div>
+
+    <form action="{{ url_for('app_routes.bilet_odeme', etkinlik_id=etkinlik_id) }}" method="POST" class="odeme-form">
+        <input type="hidden" name="userid" value="{{ user_id }}">
+
+        <label for="card_name">Kart Sahibi</label>
+        <input type="text" id="card_name" name="card_name" required placeholder="Ad Soyad">
+
+        <label for="card_number">Kart Numarası</label>
+        <input type="text" id="card_number" name="card_number" required placeholder="1234 5678 9012 3456" maxlength="16">
+
+        <label for="expiry">Son Kullanma Tarihi (AA/YY)</label>
+        <input type="text" id="expiry" name="expiry" required placeholder="MM/YY" maxlength="5">
+
+        <label for="cvc">CVC</label>
+        <input type="text" id="cvc" name="cvc" required placeholder="123" maxlength="3">
+
+        {% if etkinlik[2] > 0 %}
+        <button type="submit" class="bilet-btn">💳 Ödemeyi Onayla</button>
+        {% else %}
+        <button type="button" class="bilet-btn" disabled>🎟️ Bilet Tükendi</button>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

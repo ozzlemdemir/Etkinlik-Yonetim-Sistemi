@@ -9,6 +9,7 @@
 
 
 {% block content %}
+
 {% if name_user %}
   <div class="welcome-message">
     👋 Hoş geldin, <strong>{{ name_user }}</strong>!
@@ -19,4 +20,5 @@
 
     <h2>Yaklaşan Konserleriniz</h2>
     {% include 'partials/_soonconcerts.html' %}
+    
 {% endblock %}

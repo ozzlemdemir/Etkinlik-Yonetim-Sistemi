@@ -1,0 +1,62 @@
+.bilet-odeme-container {
+    max-width: 500px;
+    margin: 50px auto;
+    background: #fff8f0;
+    border-radius: 20px;
+    padding: 30px 40px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-family: "Poppins", sans-serif;
+}
+
+.bilet-odeme-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.etkinlik-bilgi p {
+    margin: 5px 0;
+    font-size: 15px;
+    color: #444;
+}
+
+.odeme-form {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.odeme-form label {
+    margin-top: 12px;
+    font-weight: 500;
+    color: #333;
+}
+
+.odeme-form input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.bilet-btn {
+    margin-top: 25px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.bilet-btn:hover {
+    background-color: #45a049;
+}
+
+.bilet-btn:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+}
