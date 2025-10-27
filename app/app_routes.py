@@ -32,16 +32,40 @@ def login():
 
     return render_template("login.html")
 
+@app_routes.route("/register", methods=["GET", "POST"])
+def register():
+    user_service = UserService()
+    if request.method == "POST":
+        name = request.form["name"]
+        email = request.form["email"]
+        password = request.form["password"]
+        confirm = request.form["confirm_password"]
+
+        if password != confirm:
+            flash("Şifreler uyuşmuyor!", "danger")
+            return redirect(url_for("app_routes.register"))
+
+        result = user_service.register(name, email, password)
+        if result["success"]:
+            flash("Kayıt başarılı! Giriş yapabilirsiniz.", "success")
+            return redirect(url_for("app_routes.login"))
+        else:
+            flash(result["message"], "danger")# type: ignore
+            return redirect(url_for("app_routes.register"))
+
+    return render_template("register.html")
+
 
 @app_routes.route('/index')
 def index():
+    user_id=session.get("user_id")
     user_name = session.get("user_name")
     service = ConcertService()
     concert_data = service.get_concert_adi_populer()
-    soon_concert=service.get_soon_corcert_adi()
+    soon_concert=service.get_soon_concert_adi(user_id)
     return render_template("index.html",concert_data=concert_data,
                            soon_concert=soon_concert,
-                           name_user=user_name
+                           name_user=user_name,user_id=user_id
                            )
 @app_routes.route('/etkinlikler')
 def tumetkinlikler():

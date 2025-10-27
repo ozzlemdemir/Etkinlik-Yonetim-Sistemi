@@ -1,4 +1,3 @@
-
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
@@ -9,10 +8,10 @@ body {
   height: 100vh;
 }
 
-.login-container {
+.register-container {
   display: flex;
   width: 850px;
-  height: 500px;
+  height: 550px;
   box-shadow: 0 10px 25px rgba(45, 30, 47, 0.3);
   border-radius: 20px;
   overflow: hidden;
@@ -21,7 +20,7 @@ body {
 
 .image-side {
   flex: 1;
-  background: url("https://i.pinimg.com/474x/e4/6d/1a/e46d1aa163dc72c11f62f170ac4a77d0.jpg")
+  background: url("https://i.pinimg.com/736x/12/5d/85/125d85b6a32ebc58bbcd72e90db2f5b5.jpg")
     center/cover no-repeat;
   filter: grayscale(60%) brightness(85%);
 }
@@ -41,6 +40,7 @@ h2 {
   margin-bottom: 30px;
   font-size: 28px;
   font-weight: 700;
+  text-align: center;
 }
 
 form {
@@ -70,25 +70,6 @@ input:focus {
   box-shadow: 0 0 5px rgba(45, 30, 47, 0.2);
 }
 
-.options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-  color: #211822;
-  margin-bottom: 25px;
-}
-
-.options a {
-  color: #211822;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-.options a:hover {
-  color: #2d1e2f;
-}
-
 button {
   background-color: #2d1e2f;
   border: none;
@@ -106,69 +87,18 @@ button:hover {
   color: #2d1e2f;
 }
 
-.signup-text {
+.login-text {
   text-align: center;
   margin-top: 25px;
   color: #2d1e2f;
 }
 
-.signup-text a {
+.login-text a {
   color: #533b45;
   text-decoration: none;
   font-weight: 600;
 }
 
-.signup-text a:hover {
+.login-text a:hover {
   color: #2d1e2f;
-}
-
-
-.flash-messages {
-  position: fixed;
-  top: 30px;
-  right: 30px;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-.alert {
-  padding: 15px 20px;
-  border-radius: 10px;
-  color: #fff;
-  font-weight: 500;
-  font-family: "Poppins", sans-serif;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  opacity: 0.95;
-  animation: slideIn 0.5s ease-out;
-}
-
-.alert.success {
-  background-color: #28a745;
-}
-
-.alert.danger {
-  background-color: #dc3545;
-}
-
-.alert.info {
-  background-color: #17a2b8;
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateY(-15px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 0.95;
-  }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }

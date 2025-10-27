@@ -14,10 +14,10 @@ class ConcertQueries:
             self.db.conn.rollback()  
             return []
 
-    def get_soon_concert_ad(self):
-        query = 'SELECT e."etkinlikID" , e."etkinlikAd", e.img, b.satin_alma_tarihi FROM biletler b JOIN etkinlik e ON b.etkinlikID = e."etkinlikID" WHERE b.userid = 1 AND e.tarih < \'2027-11-19\' ORDER BY e.tarih ASC;'
+    def get_soon_concert_ad(self,user_id):
+        query = 'SELECT e."etkinlikID" , e."etkinlikAd", e.img, b.satin_alma_tarihi FROM biletler b JOIN etkinlik e ON b.etkinlikID = e."etkinlikID" WHERE b.userid = %s AND e.tarih < \'2027-11-19\' ORDER BY e.tarih ASC;'
         try:
-            soonconcerts = self.db.execute_query(query, fetch=True)
+            soonconcerts = self.db.execute_query(query, (user_id,), fetch=True)
             return soonconcerts if soonconcerts is not None else []
         except Exception as e:
             print("Sorgu hatası:", e)

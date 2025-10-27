@@ -31,3 +31,13 @@ class UserQueries:
         except Exception as e:
             print("Kullanıcı çekme hatası:", e)
             return None
+    
+    def create_user(self, name, email, password):
+        query = "INSERT INTO users (name, mail, password) VALUES (%s, %s, %s);"
+        try:
+            self.db.execute_query(query, (name, email, password))
+            return True
+        except Exception as e:
+            print("Kullanıcı oluşturma hatası:", e)
+            self.db.conn.rollback()
+            return False

@@ -13,8 +13,8 @@ class ConcertService:
     def get_concert_adi_populer(self):
         return self.query.get_all_concert_ad_populer()
 
-    def get_soon_corcert_adi(self):
-        return self.query.get_soon_concert_ad()
+    def get_soon_concert_adi(self,user_id):
+        return self.query.get_soon_concert_ad(user_id)
     
     def kategori_getir(self):
         return self.query.get_all_kategories()
