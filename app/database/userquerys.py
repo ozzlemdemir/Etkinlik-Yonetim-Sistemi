@@ -1,5 +1,7 @@
 from app.database.database import Database
+import bcrypt
 class UserQueries:
+
     def __init__(self, db_conn):
         self.db = db_conn
 
@@ -33,11 +35,22 @@ class UserQueries:
             return None
     
     def create_user(self, name, email, password):
-        query = "INSERT INTO users (name, mail, password) VALUES (%s, %s, %s);"
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        query = 'INSERT INTO users (name, mail, password, "roleID") VALUES (%s, %s, %s, %s);'
         try:
-            self.db.execute_query(query, (name, email, password))
+            self.db.execute_query(query, (name, email, hashed_password.decode('utf-8'), 100))#100 kullanıcı rolu id
             return True
         except Exception as e:
             print("Kullanıcı oluşturma hatası:", e)
             self.db.conn.rollback()
             return False
+
+    
+    def get_user_by_email(self, email):
+        query = "SELECT * FROM users WHERE mail = %s;"
+        try:
+            result = self.db.execute_query(query, (email,), fetch=True)
+            return result[0] if result else None
+        except Exception as e:
+            print("E-posta ile kullanıcı çekme hatası:", e)
+            return None

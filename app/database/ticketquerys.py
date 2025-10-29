@@ -27,8 +27,14 @@ class TicketQueries:
             print("Sorgu hatası:", e)
             self.db.conn.rollback()  
             return []
-    def yeni_bilet(self,user_id,etkinlik_id):
         
+    def kisiye_gore_bilet_var_mi(self, user_id, etkinlik_id):
+        sorgu = "SELECT * FROM biletler WHERE userid=%s AND etkinlikID=%s"
+        mevcut_bilet = self.db.execute_query(sorgu, (user_id, etkinlik_id), fetch=True)
+        return bool(mevcut_bilet)
+    
+    
+    def yeni_bilet(self,user_id,etkinlik_id):
         query = "INSERT INTO biletler (userid, etkinlikID, satin_alma_tarihi) VALUES ( %s, %s, %s);"
         try:
             self.db.execute_query(query, (user_id, etkinlik_id, datetime.now()))

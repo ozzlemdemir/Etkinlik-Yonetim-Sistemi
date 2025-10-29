@@ -55,6 +55,11 @@ def register():
 
     return render_template("register.html")
 
+@app_routes.route('/logout')
+def logout():
+    session.clear()
+    flash("Başarıyla çıkış yapıldı.", "info")
+    return redirect(url_for("app_routes.login"))
 
 @app_routes.route('/index')
 def index():
@@ -95,6 +100,22 @@ def etkinlik_detay(etkinlik_id):
     etkinlik = service.etkinlik_getir_by_id(etkinlik_id)
     return render_template('etkinlik_detay.html', etkinlik=etkinlik,etkinlik_id=etkinlik_id)
 
+@app_routes.route('/bilet_al/<int:etkinlik_id>')
+def bilet_al(etkinlik_id):
+    user_id = session.get("user_id")
+    if not user_id:
+        flash("Lütfen giriş yapın.", "danger")
+        return redirect(url_for("app_routes.login"))
+
+    ticketService = TicketService()
+    mevcut_bilet = ticketService.kisiye_gore_bilet_var_mi(user_id, etkinlik_id)
+
+    if mevcut_bilet:
+        flash("Bu etkinlik için zaten bilet aldınız.", "warning")
+        return redirect(url_for('app_routes.biletbyid'))
+    else:
+        return redirect(url_for('app_routes.bilet_odeme', etkinlik_id=etkinlik_id))
+    
 @app_routes.route('/bilet_odeme/<int:etkinlik_id>', methods=['GET', 'POST'])
 def bilet_odeme(etkinlik_id):
     user_id = session.get("user_id")

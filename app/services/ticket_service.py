@@ -11,3 +11,6 @@ class TicketService:
     
     def yeni_bilet_ekle(self,user_id,etkinlik_id):
         return self.query.yeni_bilet(user_id,etkinlik_id)
+    
+    def kisiye_gore_bilet_var_mi(self, user_id, etkinlik_id):
+        return self.query.kisiye_gore_bilet_var_mi(user_id, etkinlik_id)

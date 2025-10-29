@@ -138,5 +138,26 @@ body {
     width: 90%;
   }
 }
+/* Logout butonu */
+.user-actions {
+  margin-left: 1.5rem;
+}
+
+.logout-btn {
+  background: linear-gradient(45deg, #ff4b2b, #ff416c);
+  color: white;
+  padding: 0.6rem 1.3rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+  box-shadow: 0 3px 10px rgba(255, 65, 108, 0.3);
+}
+
+.logout-btn:hover {
+  background: linear-gradient(45deg, #ff416c, #ff4b2b);
+  transform: scale(1.05);
+}
+
 
 

@@ -1,4 +1,5 @@
 # app/services/user_service.py
+import bcrypt
 from app.database.userquerys import UserQueries
 from app.database.database import Database
 
@@ -9,17 +10,18 @@ class UserService:
         self.query = UserQueries(self.db)
 
     def login(self, email, password):
-        user = self.query.get_user_by_email_and_password(email, password)
+        user = self.query.get_user_by_email(email)
         if user:
-            return {"success": True, "user": user}
-        else:
-            return {"success": False, "message": "E-posta veya şifre hatalı!"}
+            stored_hash = user[3].encode('utf-8')  # 3. sütun password olmalı
+            if bcrypt.checkpw(password.encode('utf-8'), stored_hash):
+                return {"success": True, "user": user}
+        return {"success": False, "message": "E-posta veya şifre hatalı!"}
         
     def indexte_user_by_id(self, user_id):
         return self.query.get_user_by_id(user_id)
 
     def register(self, name, email, password):
-        existing_user = self.query.get_user_by_email_and_password(email, password)
+        existing_user = self.query.get_user_by_email(email)
         if existing_user:
             return {"success": False, "message": "Bu e-posta zaten kayıtlı!"}
         

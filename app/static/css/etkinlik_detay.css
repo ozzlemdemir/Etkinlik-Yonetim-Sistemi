@@ -1,83 +1,121 @@
-/* Genel ayarlar */
+/* === GENEL AYARLAR === */
 body {
   margin: 0;
   padding: 0;
+  background-color: #000;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
   overflow-x: hidden;
-  background: #000; /* arka plan siyah kalsın, resim yüklenmezse boşluk görünmesin */
+   transform: scale(0.75); /* %75 küçültme */
+  transform-origin: top left; /* sol üstten ölçekle */
+  width: 133.33%; /* scale = 0.75 olduğunda %100 görünmesi için */
 }
 
-/* Resim tüm ekranı kaplasın */
+/* === ETKİNLİK ANA BÖLÜM === */
 .etkinlik-hero {
   position: relative;
   width: 100%;
-  height: calc(100vh - 160px); /* Navbar ve footer alanını düşür */
-  background: no-repeat center center / cover;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  overflow: hidden;
 }
 
-/* Eğer resim <img> etiketiyle geldiyse: */
+/* Arka plan görseli */
 .etkinlik-hero img.hero-image {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* resmi kırpmadan ekrana tam sığdırır */
+  object-fit: cover;
+  filter: brightness(0.7);
   z-index: 1;
 }
 
-/* Hafif karartma efekti */
+/* Siyah yarı saydam katman */
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8));
   z-index: 2;
 }
 
-/* Yazılar */
+/* === METİN KISMI === */
 .etkinlik-info {
-  position: absolute;
-  top: 50%;
-  right: 8%;
-  transform: translateY(-50%);
-  color: #fff;
+  position: relative;
   z-index: 3;
-  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
-  background: rgba(0, 0, 0, 0.35);
-  padding: 1.5rem 2rem;
-  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+  max-width: 420px;
+  color: #fff;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+  text-align: left;
 }
 
 .etkinlik-info h1 {
-  font-size: 2.8rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
 }
 
 .etkinlik-info p {
-  font-size: 1.2rem;
-  margin: 0.3rem 0;
+  margin: 0.4rem 0;
+  font-size: 1.1rem;
+  line-height: 1.4;
 }
 
-/* Bilet butonu */
+.etkinlik-meta strong {
+  color: #ff7b54;
+}
+
+/* === BİLET AL BUTONU === */
 .bilet-btn {
+  display: inline-block;
   margin-top: 1.5rem;
-  background: linear-gradient(45deg, #ff4b2b, #ff416c);
+  background: linear-gradient(90deg, #ff416c, #ff4b2b);
   color: white;
-  padding: 0.9rem 2rem;
-  border: none;
+  padding: 0.8rem 2rem;
   border-radius: 50px;
-  cursor: pointer;
   font-size: 1.1rem;
-  transition: 0.3s;
-  box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 75, 75, 0.5);
 }
 
 .bilet-btn:hover {
-  transform: scale(1.05);
+  transform: scale(1.07);
+  box-shadow: 0 6px 20px rgba(255, 75, 75, 0.7);
 }
 
-/* Navbar ve footer sabit kalsın */
-nav, footer {
-  position: relative;
-  z-index: 10;
+/* === TÜKENDİ DURUMU === */
+.bilet-btn[disabled] {
+  background: #555;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .etkinlik-info {
+    max-width: 85%;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .etkinlik-info h1 {
+    font-size: 2rem;
+  }
+
+  .etkinlik-info p {
+    font-size: 1rem;
+  }
+
+  .bilet-btn {
+    width: 100%;
+    font-size: 1rem;
+  }
 }

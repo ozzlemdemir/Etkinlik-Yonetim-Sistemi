@@ -22,7 +22,7 @@
       <p><strong>Kalan Bilet:</strong> {{ etkinlik[2] }}</p>
     </div>
     {% if etkinlik[2] > 0 %}
-        <a href="{{ url_for('app_routes.bilet_odeme', etkinlik_id=etkinlik_id) }}" 
+        <a href="{{ url_for('app_routes.bilet_al', etkinlik_id=etkinlik_id) }} " 
            target="_blank" class="bilet-btn">
            🎟️ Bilet Al
         </a>

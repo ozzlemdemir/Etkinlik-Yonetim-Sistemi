@@ -20,7 +20,7 @@ body {
 
 .image-side {
   flex: 1;
-  background: url("https://i.pinimg.com/736x/12/5d/85/125d85b6a32ebc58bbcd72e90db2f5b5.jpg")
+  background: url("https://i.pinimg.com/736x/de/8c/a9/de8ca9fbb26e0a761a67700e1a46b283.jpg")
     center/cover no-repeat;
   filter: grayscale(60%) brightness(85%);
 }
