@@ -15,9 +15,9 @@ class UserQueries:
             print("Sorgu hatası:", e)
             self.db.conn.rollback()  
             return []
-        
+
     def get_user_by_email_and_password(self, email, password):
-        query = "SELECT * FROM users WHERE mail = %s AND password = %s;"
+        query = "SELECT * FROM users WHERE mail = %s AND password = %s ;"
         try:
             result = self.db.execute_query(query, (email, password), fetch=True)
             return result[0] if result else None

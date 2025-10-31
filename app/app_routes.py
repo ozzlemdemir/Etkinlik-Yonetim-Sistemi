@@ -11,26 +11,41 @@ def hello():
     return redirect(url_for('app_routes.login'))
 
 
-@app_routes.route("/login", methods=["GET", "POST"])
+@app_routes.route('/login', methods=['GET', 'POST'])
 def login():
-    user_service = UserService()
     if request.method == "POST":
-        email = request.form["email"]
-        password = request.form["password"]
+        email = request.form.get("email")
+        password = request.form.get("password")
 
-        result = user_service.login(email, password)
+        service = UserService()
+        result = service.login(email, password)
 
         if result["success"]:
             user = result["user"]
-            session["user_id"] = user[0]   # userID
-            session["user_name"] = user[1] # name
-            flash("Giriş başarılı!", "success")
-            return redirect(url_for("app_routes.index"))
+            session["user_id"] = user[0]  # userID
+            session["user_name"] = user[1]  # name
+            session["role"] = result["role"]
+
+            if result["role"] == "admin":
+                flash("Admin girişi başarılı!", "success")
+                return redirect(url_for("app_routes.admin_dashboard"))
+            else:
+                flash("Giriş başarılı!", "success")
+                return redirect(url_for("app_routes.index"))
+
         else:
             flash(result["message"], "danger")
             return redirect(url_for("app_routes.login"))
 
     return render_template("login.html")
+
+@app_routes.route('/admin_dashboard')
+def admin_dashboard():
+    name_admin=session.get("user_name")
+    if session.get("role") != "admin":
+        flash("Bu sayfaya erişim izniniz yok!", "danger")
+        return redirect(url_for("app_routes.index"))
+    return render_template("admin/admin_dashboard.html", name_admin=name_admin)
 
 @app_routes.route("/register", methods=["GET", "POST"])
 def register():
@@ -147,3 +162,16 @@ def bilet_odeme(etkinlik_id):
             return redirect(request.referrer)
 
     return render_template('bilet_odeme.html', etkinlik=etkinlik, user_id=user_id, etkinlik_id=etkinlik_id)
+
+
+#admin routeleri 
+@app_routes.route('/admin_etkinlikler')
+def admin_tumetkinlikler():
+    # Admin girişi yapılmış mı kontrol et
+    if session.get("role") != "admin":
+        flash("Bu sayfaya erişim izniniz yok!", "danger")
+        return redirect(url_for("app_routes.login"))
+
+    service = ConcertService()
+    tumkonserler = service.get_all_concert_adi()
+    return render_template("admin/admin_tum_etkinlikler.html", tumkonserler=tumkonserler)

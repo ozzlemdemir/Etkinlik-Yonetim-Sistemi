@@ -12,9 +12,17 @@ class UserService:
     def login(self, email, password):
         user = self.query.get_user_by_email(email)
         if user:
-            stored_hash = user[3].encode('utf-8')  # 3. sütun password olmalı
+            stored_hash = user[3].encode('utf-8')  # password sütunu
+            role = user[4]  # roleID sütunu
+
             if bcrypt.checkpw(password.encode('utf-8'), stored_hash):
-                return {"success": True, "user": user}
+                if role == 100:
+                    return {"success": True, "user": user, "role": "user"}
+                elif role == 101:
+                    return {"success": True, "user": user, "role": "admin"}
+                else:
+                    return {"success": False, "message": "Geçersiz rol!"}
+
         return {"success": False, "message": "E-posta veya şifre hatalı!"}
         
     def indexte_user_by_id(self, user_id):
