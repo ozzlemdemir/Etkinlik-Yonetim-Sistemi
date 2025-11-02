@@ -1,13 +1,7 @@
 <nav class="navbar">
   <a href="{{ url_for('app_routes.admin_dashboard') }}" class="logo">🎟️ EtkinlikAdmin</a>
   <ul>
-  <!--
-    
-    <li><a href="{{ url_for('app_routes.yeni_etkinlik') }}">Yeni Etkinlik</a></li>
-    <li><a href="{{ url_for('app_routes.satilan_biletler') }}">Satılan Biletler</a></li>
-    <li><a href="{{ url_for('app_routes.bildirim_gonder') }}">Bildirim Gönder</a></li>  
-  -->
-  <li><a href="{{ url_for('app_routes.admin_tum_etkinlikler') }}">Tüm Etkinlikler</a></li>
+<li><a href="{{ url_for('app_routes.admin_tumetkinlikler') }}">Tüm Etkinlikler</a></li>
     <li><a href="{{ url_for('app_routes.logout') }}">Çıkış</a></li>
   </ul>
 </nav>

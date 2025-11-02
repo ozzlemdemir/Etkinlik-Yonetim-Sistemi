@@ -165,7 +165,7 @@ def bilet_odeme(etkinlik_id):
 
 
 #admin routeleri 
-@app_routes.route('/admin_etkinlikler')
+@app_routes.route('/tum_etkinlikler_admin')
 def admin_tumetkinlikler():
     # Admin girişi yapılmış mı kontrol et
     if session.get("role") != "admin":
@@ -174,4 +174,4 @@ def admin_tumetkinlikler():
 
     service = ConcertService()
     tumkonserler = service.get_all_concert_adi()
-    return render_template("admin/admin_tum_etkinlikler.html", tumkonserler=tumkonserler)
+    return render_template("partials/admin_partial/admin_tum_etkinlikler.html", tumkonserler=tumkonserler)

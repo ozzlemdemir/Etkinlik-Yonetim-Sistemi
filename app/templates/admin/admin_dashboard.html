@@ -1,7 +1,9 @@
 {% include 'partials/admin_partial/_admin_navbar.html' %}
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_css/admin.css') }}">
+>
 {% endblock %}
+
 {% block content %}
   <div class="container mt-5">
     <h2>Admin Paneline Hoş Geldiniz!</h2>
@@ -12,4 +14,5 @@
     {% endif %}
     <p>Buradan etkinlikleri, kullanıcıları ve biletleri yönetebilirsiniz.</p>
   </div>
+
 {% endblock %}

@@ -1,17 +1,21 @@
-<div class="container mt-5">
-  <h3 class="mb-4">🎫 Tüm Etkinlikler</h3>
+{% include 'partials/admin_partial/_admin_navbar.html' %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_css/admin_tumetkinlikler.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_css/admin.css') }}">
+{% endblock %}
 
-  <div class="row">
+<div class="container etkinlik-container">
+  <h3 class="etkinlik-baslik">🎫 Tüm Etkinlikler</h3>
+
+  <div class="cards-wrapper">
     {% for konser in tumkonserler %}
-      <div class="col-md-4 mb-4">
-        <div class="card shadow-sm">
-          <img src="{{ konser[1] }}" class="card-img-top" alt="{{ konser[0] }}">
-          <div class="card-body text-center">
-            <h5 class="card-title">{{ konser[0] }}</h5>
-            <div class="d-flex justify-content-center gap-2 mt-3">
-              <a href="{{ url_for('app_routes.guncelle_etkinlik', etkinlik_id=konser[2]) }}" class="btn btn-warning btn-sm">Güncelle</a>
-              <a href="{{ url_for('app_routes.sil_etkinlik', etkinlik_id=konser[2]) }}" class="btn btn-danger btn-sm">Sil</a>
-            </div>
+      <div class="card">
+        <img src="{{ url_for('static', filename=konser[1]) }}" class="card-img-top" alt="{{ konser[0] }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ konser[0] }}</h5>
+          <div class="btn-group">
+            <button class="btn-update">Güncelle</button>
+            <button class="btn-delete">Sil</button>
           </div>
         </div>
       </div>
