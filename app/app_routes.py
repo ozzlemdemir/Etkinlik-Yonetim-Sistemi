@@ -175,3 +175,43 @@ def admin_tumetkinlikler():
     service = ConcertService()
     tumkonserler = service.get_all_concert_adi()
     return render_template("partials/admin_partial/admin_tum_etkinlikler.html", tumkonserler=tumkonserler)
+
+@app_routes.route('/guncelle_etkinlik/<int:etkinlik_id>', methods=['GET', 'POST'])
+def guncelle_etkinlik(etkinlik_id):
+    service = ConcertService()
+    
+    if request.method == 'POST':
+        # Formdan gelen verileri al
+        ad = request.form.get('ad')
+        img = request.form.get('img')
+        kontenjan = request.form.get('kontenjan')
+        tarih = request.form.get('tarih')
+        adres = request.form.get('adres')
+        ucret = request.form.get('ucret')
+        detay_bilgi = request.form.get('detay_bilgi')
+
+        # Güncelleme işlemi
+        success = service.update_concert(
+            etkinlik_id, ad, img, kontenjan, tarih, adres, ucret, detay_bilgi
+        )
+
+        if success:
+            flash('Etkinlik başarıyla güncellendi!', 'success')
+        else:
+            flash('Etkinlik güncellenirken bir hata oluştu!', 'danger')
+        return redirect(url_for('app_routes.admin_tumetkinlikler'))
+
+    # GET isteği: mevcut etkinlik verisini getir
+    etkinlik = service.etkinlik_getir_by_id(etkinlik_id)
+    return render_template('partials/admin_partial/admin_guncelle_etkinlik.html', etkinlik=etkinlik)
+
+
+@app_routes.route('/sil_etkinlik/<int:etkinlik_id>', methods=['GET'])
+def sil_etkinlik(etkinlik_id):
+    service = ConcertService()
+    success = service.delete_concert(etkinlik_id)
+    if success:
+        flash('Etkinlik başarıyla silindi.', 'success')
+    else:
+        flash('Etkinlik silinirken bir hata oluştu!', 'danger')
+    return redirect(url_for('app_routes.admin_tumetkinlikler'))

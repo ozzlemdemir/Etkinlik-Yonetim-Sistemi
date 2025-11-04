@@ -14,11 +14,17 @@
         <div class="card-body">
           <h5 class="card-title">{{ konser[0] }}</h5>
           <div class="btn-group">
-            <button class="btn-update">Güncelle</button>
-            <button class="btn-delete">Sil</button>
-          </div>
+  <a href="{{ url_for('app_routes.guncelle_etkinlik', etkinlik_id=konser[2]) }}" class="btn-update">Güncelle</a>
+  <a href="{{ url_for('app_routes.sil_etkinlik', etkinlik_id=konser[2]) }}" 
+     class="btn-delete" 
+     onclick="return confirm('Bu etkinliği silmek istediğinizden emin misiniz?');">
+     Sil
+  </a>
+</div>
         </div>
       </div>
     {% endfor %}
   </div>
 </div>
+
+

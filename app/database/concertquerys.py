@@ -63,6 +63,35 @@ class ConcertQueries:
             print("Sorgu hatası:", e)
             self.db.conn.rollback()  
             return []
+    
         
-            
+    def update_concert(self, etkinlik_id, etkinlik_ad, img, kontenjan, tarih, adres, ucret, detay_bilgi):
+        query = '''
+            UPDATE etkinlik 
+            SET "etkinlikAd" = %s, img = %s, kontenjan = %s, tarih = %s, adres = %s, ucret = %s, detay_bilgi = %s
+            WHERE "etkinlikID" = %s;
+        '''
+        try:
+            self.db.execute_query(query, (etkinlik_ad, img, kontenjan, tarih, adres, ucret, detay_bilgi, etkinlik_id))
+            self.db.conn.commit()
+            print(f"Etkinlik (ID: {etkinlik_id}) başarıyla güncellendi.")
+            return True
+        except Exception as e:
+            print("Güncelleme hatası:", e)
+            self.db.conn.rollback()
+            return False
+
+
+    def delete_concert(self, etkinlik_id):
+        query = 'DELETE FROM etkinlik WHERE "etkinlikID" = %s;'
+        try:
+            self.db.execute_query(query, (etkinlik_id,))
+            self.db.conn.commit()
+            print(f"Etkinlik (ID: {etkinlik_id}) başarıyla silindi.")
+            return True
+        except Exception as e:
+            print("Silme hatası:", e)
+            self.db.conn.rollback()
+            return False
+
     
