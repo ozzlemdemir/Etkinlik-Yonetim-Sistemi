@@ -1,7 +1,7 @@
 {% include 'partials/admin_partial/_admin_navbar.html' %}
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_css/admin.css') }}">
->
+
 {% endblock %}
 
 {% block content %}
@@ -13,6 +13,24 @@
       </div>
     {% endif %}
     <p>Buradan etkinlikleri, kullanıcıları ve biletleri yönetebilirsiniz.</p>
+     <div class="btn-group mt-4">
+    
+    <a href="{{ url_for('app_routes.kategori_ekle') }}" class="btn btn-primary mx-2">📂 Yeni Kategori Ekle</a>
   </div>
-
+  </div>
+  
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const flashMessages = {{ messages | tojson | safe }};
+        flashMessages.forEach(function(item) {
+          const category = item[0];
+          const message = item[1];
+          alert(message);
+        });
+      });
+    </script>
+  {% endif %}
+{% endwith %}
 {% endblock %}

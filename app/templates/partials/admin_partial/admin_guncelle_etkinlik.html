@@ -1,1 +1,55 @@
-<h2>Etkinlik Güncelle</h2>
+{% include 'partials/admin_partial/_admin_navbar.html' %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_css/admin_guncelle_etkinlik.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_css/admin.css') }}">
+{% endblock %}
+
+<div class="container update-container">
+  <h3 class="page-title">🎵 Etkinliği Güncelle</h3>
+
+  <form action="{{ url_for('app_routes.guncelle_etkinlik', etkinlik_id=etkinlik[0]) }}" method="POST" class="update-form"
+  enctype="multipart/form-data">
+    
+    <div class="form-group">
+      <label for="ad">Etkinlik Adı:</label>
+      <input type="text" id="ad" name="ad" value="{{ etkinlik[1] }}" required>
+    </div>
+
+    <div class="form-group">
+      <label for="img">Görsel (path):</label>
+       <input type="file" name="img" accept="image/*">
+    </div>
+
+    <div class="form-group">
+      <label for="kontenjan">Kontenjan:</label>
+      <input type="number" id="kontenjan" name="kontenjan" value="{{ etkinlik[3] }}" required>
+    </div>
+
+    <div class="form-group">
+      <label for="tarih">Tarih:</label>
+      <input type="date" name="tarih" 
+       value="{{ etkinlik[4] | string | replace('.', '-') | trim }}" 
+       class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="adres">Adres:</label>
+      <input type="text" id="adres" name="adres" value="{{ etkinlik[5] }}" required>
+    </div>
+
+    <div class="form-group">
+      <label for="ucret">Ücret:</label>
+      <input type="number" id="ucret" name="ucret" value="{{ etkinlik[6] }}" required>
+    </div>
+
+    <div class="form-group">
+      <label for="detay_bilgi">Detay Bilgi:</label>
+      <textarea id="detay_bilgi" name="detay_bilgi" rows="4">{{ etkinlik[7] }}</textarea>
+    </div>
+
+    <div class="btn-group">
+      <button type="submit" class="btn-save">💾 Kaydet</button>
+      <a href="{{ url_for('app_routes.admin_tumetkinlikler') }}" class="btn-cancel">❌ İptal</a>
+    </div>
+  </form>
+</div>

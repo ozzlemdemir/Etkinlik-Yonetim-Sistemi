@@ -1,4 +1,5 @@
 from flask import Blueprint, flash, render_template, redirect, url_for, request, make_response,jsonify,session
+import os
 from app.services.concert_service import ConcertService
 from app.services.ticket_service import TicketService
 from app.services.user_service import UserService
@@ -164,10 +165,10 @@ def bilet_odeme(etkinlik_id):
     return render_template('bilet_odeme.html', etkinlik=etkinlik, user_id=user_id, etkinlik_id=etkinlik_id)
 
 
-#admin routeleri 
+ 
 @app_routes.route('/tum_etkinlikler_admin')
 def admin_tumetkinlikler():
-    # Admin girişi yapılmış mı kontrol et
+  
     if session.get("role") != "admin":
         flash("Bu sayfaya erişim izniniz yok!", "danger")
         return redirect(url_for("app_routes.login"))
@@ -181,18 +182,32 @@ def guncelle_etkinlik(etkinlik_id):
     service = ConcertService()
     
     if request.method == 'POST':
-        # Formdan gelen verileri al
+       
         ad = request.form.get('ad')
-        img = request.form.get('img')
         kontenjan = request.form.get('kontenjan')
         tarih = request.form.get('tarih')
         adres = request.form.get('adres')
         ucret = request.form.get('ucret')
         detay_bilgi = request.form.get('detay_bilgi')
+            
+        file = request.files.get('img')
+        img_path = None
 
-        # Güncelleme işlemi
+        if file and file.filename:
+         upload_folder = os.path.join('static', 'images')
+         os.makedirs(upload_folder, exist_ok=True)
+
+         save_path = os.path.join(upload_folder, file.filename)
+         file.save(save_path)
+
+         img_path = f"images/{file.filename}"
+        else:
+         mevcut_etkinlik = service.for_admin_get_concert_by_id(etkinlik_id)
+         img_path = mevcut_etkinlik[2] if mevcut_etkinlik else None
+
+       
         success = service.update_concert(
-            etkinlik_id, ad, img, kontenjan, tarih, adres, ucret, detay_bilgi
+            etkinlik_id, ad, img_path, kontenjan, tarih, adres, ucret, detay_bilgi
         )
 
         if success:
@@ -201,8 +216,8 @@ def guncelle_etkinlik(etkinlik_id):
             flash('Etkinlik güncellenirken bir hata oluştu!', 'danger')
         return redirect(url_for('app_routes.admin_tumetkinlikler'))
 
-    # GET isteği: mevcut etkinlik verisini getir
-    etkinlik = service.etkinlik_getir_by_id(etkinlik_id)
+    
+    etkinlik = service.for_admin_get_concert_by_id(etkinlik_id)
     return render_template('partials/admin_partial/admin_guncelle_etkinlik.html', etkinlik=etkinlik)
 
 
@@ -215,3 +230,18 @@ def sil_etkinlik(etkinlik_id):
     else:
         flash('Etkinlik silinirken bir hata oluştu!', 'danger')
     return redirect(url_for('app_routes.admin_tumetkinlikler'))
+
+
+#admin yeni etkinlik ekleme ve kategori ekleme route'ları eklenecek
+@app_routes.route('/kategori_ekle', methods=['GET', 'POST'])
+def kategori_ekle():
+    service = ConcertService()
+    if request.method == 'POST':
+        kategori_ad = request.form.get("kategori_ad")
+        if kategori_ad:
+            service.for_admin_add_kategori(kategori_ad)
+            flash('Kategori başarıyla eklendi!', 'success')
+            return redirect(url_for('app_routes.admin_dashboard'))
+        else:
+            flash('Lütfen kategori adını girin.', 'danger')
+    return render_template('partials/admin_partial/admin_kategori_ekle.html')

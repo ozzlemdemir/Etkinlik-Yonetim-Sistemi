@@ -25,3 +25,14 @@ class ConcertService:
     def  etkinlik_getir_by_id(self,etkinlik_id):
         return self.query.get_concert_by_id(etkinlik_id)
     
+    def update_concert(self, etkinlik_id, etkinlik_ad, img, kontenjan, tarih, adres, ucret, detay_bilgi):
+        return self.query.update_concert(etkinlik_id, etkinlik_ad, img, kontenjan, tarih, adres, ucret, detay_bilgi)
+
+    def delete_concert(self, etkinlik_id):
+        return self.query.delete_concert(etkinlik_id)
+    
+    def for_admin_get_concert_by_id(self, etkinlik_id):
+        return self.query.for_admin_get_concert_by_id(etkinlik_id)
+    
+    def for_admin_add_kategori(self,kategori_adi):
+        return self.query.add_kategori(kategori_adi)

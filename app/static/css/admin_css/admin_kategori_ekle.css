@@ -1,0 +1,111 @@
+/* Genel sayfa stili */
+body {
+  background-color: #f8f9fa;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Kapsayıcı */
+.container {
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  max-width: 700px;
+  margin-top: 60px;
+}
+
+/* Başlık */
+h2 {
+  text-align: center;
+  font-weight: 700;
+  color: #1f2d3d;
+  margin-bottom: 30px;
+}
+
+/* Form alanı */
+.kategori-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Etiketler */
+.form-label {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Giriş kutuları */
+.form-control {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 10px 12px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #ffb300;
+  box-shadow: 0 0 5px rgba(255, 179, 0, 0.5);
+  outline: none;
+}
+
+/* Butonlar */
+.btn {
+  border-radius: 10px;
+  font-weight: 600;
+  padding: 10px 20px;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+  background-color: #ffb300;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #e3a000;
+}
+
+.btn-secondary {
+  background-color: #1f2d3d;
+  color: white;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #32475b;
+}
+
+/* Bildirim kutuları */
+.alert {
+  margin-top: 15px;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: 500;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 25px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .kategori-form {
+    gap: 15px;
+  }
+}

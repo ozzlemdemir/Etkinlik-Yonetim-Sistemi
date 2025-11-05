@@ -93,5 +93,28 @@ class ConcertQueries:
             print("Silme hatası:", e)
             self.db.conn.rollback()
             return False
-
-    
+    def for_admin_get_concert_by_id(self, concert_id=None):
+        query = '''
+            SELECT "etkinlikID", "etkinlikAd", img, kontenjan, tarih, adres, ucret, detay_bilgi
+            FROM etkinlik
+            WHERE "etkinlikID" = %s
+        '''
+        try:
+            detay_konser = self.db.execute_query(query, (concert_id,), fetch=True, fetch_mode="one")
+            return detay_konser if detay_konser is not None else []
+        except Exception as e:
+            print("Sorgu hatası:", e)
+            self.db.conn.rollback()
+            return []  
+        
+    def add_kategori(self,kategori_ad):
+        query="INSERT INTO kategori (kategori_adi) VALUES (%s)"
+        try:
+            self.db.execute_query(query, (kategori_ad,))
+            self.db.conn.commit()
+            print(f"Kategori '{kategori_ad}' başarıyla eklendi.")
+            return True
+        except Exception as e:
+            print("Ekleme hatası:", e)
+            self.db.conn.rollback()
+            return False
