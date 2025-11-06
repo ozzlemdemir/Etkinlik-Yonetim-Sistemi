@@ -1,5 +1,6 @@
 from flask import Blueprint, flash, render_template, redirect, url_for, request, make_response,jsonify,session
 import os
+from werkzeug.utils import secure_filename
 from app.services.concert_service import ConcertService
 from app.services.ticket_service import TicketService
 from app.services.user_service import UserService
@@ -245,3 +246,36 @@ def kategori_ekle():
         else:
             flash('Lütfen kategori adını girin.', 'danger')
     return render_template('partials/admin_partial/admin_kategori_ekle.html')
+
+@app_routes.route('/etkinlik_ekle', methods=['GET', 'POST'])
+def etkinlik_ekle():
+    service = ConcertService()
+    if request.method == 'POST':
+        etkinlik_ad = request.form.get("ad")  
+        img = request.files.get("img")        
+        kontenjan = request.form.get("kontenjan")
+        tarih = request.form.get("tarih")
+        adres = request.form.get("adres")
+        ucret = request.form.get("ucret")
+        detay_bilgi = request.form.get("detay_bilgi")
+
+        if not img or img.filename == "":
+            flash('Lütfen bir görsel seçin.', 'danger')
+            return redirect(request.url)
+
+        if etkinlik_ad and kontenjan and tarih and adres and ucret and detay_bilgi:
+            filename = secure_filename(img.filename) #type: ignore
+            upload_folder = "app/static/uploads"
+            os.makedirs(upload_folder, exist_ok=True)
+
+            img.save(os.path.join(upload_folder, filename))
+
+            db_img_path = f"images/{filename}"
+
+            service.for_admin_add_concert(etkinlik_ad, db_img_path, kontenjan, tarih, adres, ucret, detay_bilgi)
+            flash('Etkinlik başarıyla eklendi!', 'success')
+            return redirect(url_for('app_routes.admin_dashboard'))
+        else:
+            flash('Lütfen tüm alanları doldurun.', 'danger')
+
+    return render_template('partials/admin_partial/admin_etkinlik_ekle.html')

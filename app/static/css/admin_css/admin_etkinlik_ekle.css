@@ -1,0 +1,132 @@
+/* Genel sayfa stili */
+body {
+  background-color: #f8f9fa;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Kapsayıcı */
+.add-event-container {
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  max-width: 700px;
+  margin: 60px auto;
+}
+
+/* Başlık */
+.page-title {
+  text-align: center;
+  font-weight: 700;
+  color: #1f2d3d;
+  margin-bottom: 30px;
+}
+
+/* Form alanı */
+.add-event-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Etiketler */
+.form-group label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* Giriş kutuları */
+.form-group input,
+.form-group textarea,
+.form-group select {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 10px 12px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #ffb300;
+  box-shadow: 0 0 5px rgba(255, 179, 0, 0.5);
+  outline: none;
+}
+
+/* Butonlar */
+.btn-save,
+.btn-cancel {
+  border-radius: 10px;
+  font-weight: 600;
+  padding: 10px 20px;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+}
+
+.btn-save {
+  background-color: #ffb300;
+  border: none;
+  color: white;
+}
+
+.btn-save:hover {
+  background-color: #e3a000;
+}
+
+.btn-cancel {
+  background-color: #1f2d3d;
+  color: white;
+  border: none;
+}
+
+.btn-cancel:hover {
+  background-color: #32475b;
+}
+
+/* Buton grubu */
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Bildirim kutuları */
+.alert {
+  margin-top: 15px;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: 500;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .add-event-container {
+    padding: 25px;
+  }
+
+  .btn-group {
+    flex-direction: column;
+  }
+
+  .btn-save,
+  .btn-cancel {
+    width: 100%;
+  }
+}

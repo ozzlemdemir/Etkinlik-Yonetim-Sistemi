@@ -107,6 +107,19 @@ class ConcertQueries:
             self.db.conn.rollback()
             return []  
         
+    def etkinlik_ekle(self,etkinlik_ad, img, kontenjan, tarih, adres, ucret, detay_bilgi):
+        query="""INSERT INTO etkinlik ("etkinlikAd", "img", "kontenjan", "tarih", "adres", "ucret", "detay_bilgi")
+        VALUES (%s, %s, %s, %s, %s, %s, %s)"""
+        try:
+            self.db.execute_query(query,(etkinlik_ad, img, kontenjan, tarih, adres, ucret, detay_bilgi))
+            self.db.conn.commit()
+            print(f"Etkinlik '{etkinlik_ad}' başarıyla eklendi.")
+            return True
+        except Exception as e:
+            print("Ekleme hatası:", e)
+            self.db.conn.rollback()
+            return False
+
     def add_kategori(self,kategori_ad):
         query="INSERT INTO kategori (kategori_adi) VALUES (%s)"
         try:
