@@ -160,4 +160,39 @@ body {
 }
 
 
+.notification-box {
+  position: absolute;
+  top: 60px;
+  right: 120px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 300px;
+  max-height: 300px;
+  overflow-y: auto;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+  padding: 10px;
+}
+
+.notification-box.hidden {
+  display: none;
+}
+
+.notification-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-box li {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.notification-box li:last-child {
+  border-bottom: none;
+}
+
+
 

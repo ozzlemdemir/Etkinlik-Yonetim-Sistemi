@@ -73,6 +73,23 @@ class ConcertQueries:
         '''
         try:
             self.db.execute_query(query, (etkinlik_ad, img, kontenjan, tarih, adres, ucret, detay_bilgi, etkinlik_id))
+            
+            query_users = 'SELECT "userid" FROM biletler WHERE "etkinlikid" = %s;'
+            kullanicilar = self.db.execute_query(query_users, (etkinlik_id,), fetch=True)
+            mesaj = f"'{etkinlik_ad}' adlı etkinliğin bilgileri güncellenmiştir. Lütfen kontrol ediniz."
+            print("deeneme")
+            print(kullanicilar)
+            
+            if kullanicilar:
+                query_notify = '''
+                    INSERT INTO bildirimler (alici_id, gonderen_id, mesaj)
+                    VALUES (%s, %s, %s);
+                '''
+                for k in kullanicilar:
+                    alici_id = k[0]
+                    self.db.execute_query(query_notify, (alici_id, 200, mesaj))
+
+            
             self.db.conn.commit()
             print(f"Etkinlik (ID: {etkinlik_id}) başarıyla güncellendi.")
             return True
@@ -107,11 +124,11 @@ class ConcertQueries:
             self.db.conn.rollback()
             return []  
         
-    def etkinlik_ekle(self,etkinlik_ad, img, kontenjan, tarih, adres, ucret, detay_bilgi):
-        query="""INSERT INTO etkinlik ("etkinlikAd", "img", "kontenjan", "tarih", "adres", "ucret", "detay_bilgi")
-        VALUES (%s, %s, %s, %s, %s, %s, %s)"""
+    def etkinlik_ekle(self,etkinlik_ad, img, kontenjan, tarih, adres, ucret, detay_bilgi,kategori_id):
+        query="""INSERT INTO etkinlik ("etkinlikAd", "img", "kontenjan", "tarih", "adres", "ucret", "detay_bilgi", "kategoriid")
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
         try:
-            self.db.execute_query(query,(etkinlik_ad, img, kontenjan, tarih, adres, ucret, detay_bilgi))
+            self.db.execute_query(query,(etkinlik_ad, img, kontenjan, tarih, adres, ucret, detay_bilgi,kategori_id))
             self.db.conn.commit()
             print(f"Etkinlik '{etkinlik_ad}' başarıyla eklendi.")
             return True

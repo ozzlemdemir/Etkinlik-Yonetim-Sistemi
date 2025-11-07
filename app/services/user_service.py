@@ -38,3 +38,6 @@ class UserService:
             return {"success": True}
         else:
             return {"success": False, "message": "Kayıt sırasında bir hata oluştu."}
+        
+    def bildirimleri_getir(self, kullanici_id):
+        return self.query.bildirimleri_getir(kullanici_id)

@@ -9,12 +9,43 @@
       <li><a href="/index" class="active">Anasafa</a></li>
       <li><a href="/etkinlikler">Etkinlikler</a></li>
       <li><a href="/biletler">Biletleriniz</a></li>
-      <li><a href="/#">Bildirimler</a></li>
+      <li class="notification-item">
+      <a href="#" id="notificationBtn">Bildirimler 🔔</a>
+      <div id="notificationBox" class="notification-box hidden">
+        <ul id="notificationList"></ul>
+  </div>
+</li>
     </ul>
-    <!--Buraya bildirim kutusu gelecek-->
+    
     
     <div class="user-actions">
       <a href="/logout" class="logout-btn">Çıkış Yap</a>
     </div>
   </div>
 </nav>
+<script>
+document.getElementById('notificationBtn').addEventListener('click', function(e) {
+  e.preventDefault();
+  const box = document.getElementById('notificationBox');
+  box.classList.toggle('hidden');
+
+  if (!box.classList.contains('hidden')) {
+    fetch('/bildirimler')
+      .then(response => response.json())
+      .then(data => {
+        const list = document.getElementById('notificationList');
+        list.innerHTML = '';
+        if (data.length === 0) {
+          list.innerHTML = '<li>Henüz bildiriminiz yok.</li>';
+        } else {
+          data.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = `${item.mesaj} (${item.tarih})`;
+            list.appendChild(li);
+          });
+        }
+      });
+  }
+});
+</script>
+

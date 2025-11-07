@@ -250,9 +250,14 @@ def kategori_ekle():
 @app_routes.route('/etkinlik_ekle', methods=['GET', 'POST'])
 def etkinlik_ekle():
     service = ConcertService()
+
+    # ✅ Veritabanındaki kategorileri al
+    kategoriler = service.kategori_getir()
+
     if request.method == 'POST':
-        etkinlik_ad = request.form.get("ad")  
-        img = request.files.get("img")        
+        etkinlik_ad = request.form.get("ad")
+        kategori_id = request.form.get("kategori_id")
+        img = request.files.get("img")
         kontenjan = request.form.get("kontenjan")
         tarih = request.form.get("tarih")
         adres = request.form.get("adres")
@@ -263,19 +268,35 @@ def etkinlik_ekle():
             flash('Lütfen bir görsel seçin.', 'danger')
             return redirect(request.url)
 
-        if etkinlik_ad and kontenjan and tarih and adres and ucret and detay_bilgi:
-            filename = secure_filename(img.filename) #type: ignore
+        if etkinlik_ad and kategori_id and kontenjan and tarih and adres and ucret and detay_bilgi:
+            filename = secure_filename(img.filename)  # type: ignore
             upload_folder = "app/static/uploads"
             os.makedirs(upload_folder, exist_ok=True)
 
             img.save(os.path.join(upload_folder, filename))
-
             db_img_path = f"images/{filename}"
 
-            service.for_admin_add_concert(etkinlik_ad, db_img_path, kontenjan, tarih, adres, ucret, detay_bilgi)
+            service.for_admin_add_concert(
+                etkinlik_ad, db_img_path, kontenjan, tarih, adres, ucret, detay_bilgi, kategori_id
+            )
+
             flash('Etkinlik başarıyla eklendi!', 'success')
             return redirect(url_for('app_routes.admin_dashboard'))
         else:
             flash('Lütfen tüm alanları doldurun.', 'danger')
 
-    return render_template('partials/admin_partial/admin_etkinlik_ekle.html')
+    # 🔻 Kategorileri HTML'e gönder
+    return render_template(
+        'partials/admin_partial/admin_etkinlik_ekle.html',
+        kategoriler=kategoriler
+    )
+
+@app_routes.route('/bildirimler')
+def bildirimler():
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "Kullanıcı oturumu bulunamadı"}), 401
+
+    user_service = UserService()
+    notifications = user_service.bildirimleri_getir(user_id)
+    return jsonify(notifications)

@@ -13,6 +13,17 @@
       <label for="ad">Etkinlik Adı:</label>
       <input type="text" id="ad" name="ad" required>
     </div>
+    
+    <div class="form-group">
+    <label for="kategori">Kategori:</label>
+    <select id="kategori" name="kategori_id" required>
+      <option value="">Kategori seçin</option>
+      {% for kategori in kategoriler %}
+        <option value="{{ kategori[0] }}">{{ kategori[1] }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
     <div class="form-group">
       <label for="img">Görsel (path):</label>
       <input type="file" name="img" accept="image/*" required>

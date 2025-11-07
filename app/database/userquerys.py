@@ -54,3 +54,14 @@ class UserQueries:
         except Exception as e:
             print("E-posta ile kullanıcı çekme hatası:", e)
             return None
+    
+    def bildirimleri_getir(self, kullanici_id):
+        query = "SELECT mesaj, tarih FROM bildirimler WHERE alici_id = %s ORDER BY tarih DESC;"
+        try:
+            result = self.db.execute_query(query, (kullanici_id,), fetch=True)
+            if not result:
+                return []  # eğer None ya da boşsa boş liste döndür
+            return [{"mesaj": r[0], "tarih": r[1]} for r in result]
+        except Exception as e:
+            print("Bildirim sorgu hatası:", e)
+            return []
