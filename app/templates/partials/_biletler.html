@@ -8,6 +8,7 @@
         <th>Konser Yeri</th>
         <th>Ücret</th>
         <th>Satın Alınma Tarihi</th>
+        <th>İşlem</th>
       </tr>
     </thead>
     <tbody>
@@ -21,8 +22,26 @@
         <td>{{ bilet[3] }}</td>
         <td>{{ bilet[4] }} ₺</td>
         <td>{{ bilet[5] }}</td>
+        <td>
+        <form action="{{ url_for('app_routes.bilet_iptal') }}" method="POST">
+          <input type="hidden" name="etkinlik_id" value="{{ bilet[6] }}">
+          <button type="submit" class="iptal-btn"
+        onclick="return confirm('Bu bileti iptal etmek istediğinize emin misiniz? İade kartınıza yansıyacaktır.')">
+         İptal Et
+      </button>
+        </form>
+        </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+        <div class="flash-message {{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}

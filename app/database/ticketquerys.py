@@ -6,7 +6,7 @@ class TicketQueries:
         self.db = db_conn
         
     def kisiye_gore_bilet(self,id_user):
-        query = ' SELECT e."etkinlikAd", e.img, e.tarih, e.adres, e.ucret, b.satin_alma_tarihi  FROM biletler b JOIN etkinlik e ON b.etkinlikID = e."etkinlikID" WHERE b.userid = %s'
+        query = ' SELECT e."etkinlikAd", e.img, e.tarih, e.adres, e.ucret, b.satin_alma_tarihi, e."etkinlikID"  FROM biletler b JOIN etkinlik e ON b.etkinlikID = e."etkinlikID" WHERE b.userid = %s'
         try: 
             biletler = self.db.execute_query(query, params=(id_user,), fetch=True)
             
@@ -19,7 +19,8 @@ class TicketQueries:
                     bilet[2],  # tarih
                     bilet[3],  # adres
                     bilet[4],  # ucret
-                    satin_alma_tarihi  # biçimlendirilmiş tarih
+                    satin_alma_tarihi , # biçimlendirilmiş tarih
+                    bilet[6]  # etkinlikID
                 ))
             
             return formatted_biletler if biletler is not None else []
@@ -41,5 +42,17 @@ class TicketQueries:
             return True
         except Exception as e:
             print("Bilet ekleme hatası:", e)
+            self.db.conn.rollback()
+            return False
+        
+    def bilet_sil(self,user_id,etkinlik_id):
+        query1 = "DELETE FROM biletler WHERE userid=%s AND etkinlikID=%s;"
+        query2 = "UPDATE etkinlik SET kontenjan = kontenjan + 1 WHERE \"etkinlikID\"=%s;"
+        try:
+            self.db.execute_query(query1, (user_id, etkinlik_id))
+            self.db.execute_query(query2, (etkinlik_id,))
+            return True
+        except Exception as e:
+            print("Bilet silme hatası:", e)
             self.db.conn.rollback()
             return False

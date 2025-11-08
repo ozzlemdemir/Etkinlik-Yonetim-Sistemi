@@ -61,3 +61,56 @@ body {
   border-radius: 8px;
   object-fit: cover;
 }
+.iptal-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+.iptal-btn:hover {
+  background-color: #e60000;
+  transform: scale(1.05);
+}
+
+.iptal-btn:active {
+  transform: scale(0.97);
+}
+.flash-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.flash-message {
+  padding: 14px 22px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  color: white;
+  font-weight: 600;
+  animation: fadeInSlide 0.4s ease;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Başarılı mesaj */
+.flash-message.success {
+  background-color: #28a745;
+}
+
+/* Hata mesajı */
+.flash-message.danger {
+  background-color: #dc3545;
+}
+
+/* Animasyon */
+@keyframes fadeInSlide {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+

@@ -165,7 +165,24 @@ def bilet_odeme(etkinlik_id):
 
     return render_template('bilet_odeme.html', etkinlik=etkinlik, user_id=user_id, etkinlik_id=etkinlik_id)
 
+@app_routes.route('/bilet_iptal', methods=['POST'])
+def bilet_iptal():
+    user_id = session.get("user_id")
+    etkinlik_id = request.form.get("etkinlik_id")
 
+    if not user_id:
+        flash("Lütfen giriş yapın.", "danger")
+        return redirect(url_for('app_routes.login'))
+
+    ticketService = TicketService()
+    success = ticketService.bilet_iptal_et(user_id, etkinlik_id)
+
+    if success:
+        flash("Bilet iptal edildi. Kartınıza iade sağlandı ✅", "success")
+    else:
+        flash("İptal sırasında hata oluştu.", "danger")
+
+    return redirect(url_for('app_routes.biletbyid'))
  
 @app_routes.route('/tum_etkinlikler_admin')
 def admin_tumetkinlikler():

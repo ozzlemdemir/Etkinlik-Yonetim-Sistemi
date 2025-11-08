@@ -1,3 +1,8 @@
+body {
+  transform: scale(0.75); /* %75 küçültme */
+  transform-origin: top left; /* sol üstten ölçekle */
+  width: 133.33%; /* scale = 0.75 olduğunda %100 görünmesi için */
+}
 .bilet-odeme-container {
     max-width: 500px;
     margin: 50px auto;
