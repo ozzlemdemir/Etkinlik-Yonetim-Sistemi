@@ -20,6 +20,14 @@
      onclick="return confirm('Bu etkinliği silmek istediğinizden emin misiniz?');">
      Sil
   </a>
+    {% if konser[3] == True %}
+    <a href="{{ url_for('app_routes.populer_kaldir', etkinlik_id=konser[2]) }}" 
+       class="btn-unpopular">Popülerlikten Çıkar</a>
+  {% else %}
+    <a href="{{ url_for('app_routes.populer_yap', etkinlik_id=konser[2]) }}" 
+       class="btn-popular">Popüler Yap</a>
+  {% endif %}
+
 </div>
         </div>
       </div>

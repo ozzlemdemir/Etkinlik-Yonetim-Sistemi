@@ -317,3 +317,24 @@ def bildirimler():
     user_service = UserService()
     notifications = user_service.bildirimleri_getir(user_id)
     return jsonify(notifications)
+
+#popüler etkinlik yapma ve kaldırma route'ları
+@app_routes.route('/populer_yap/<int:etkinlik_id>')
+def populer_yap(etkinlik_id):
+    service = ConcertService()
+    success, message = service.populer_yap(etkinlik_id)
+
+    if success:
+        flash(message, "success")
+    else:
+        flash(message, "warning")
+
+    return redirect(url_for('app_routes.admin_tumetkinlikler'))
+
+@app_routes.route('/populer_kaldir/<int:etkinlik_id>')
+def populer_kaldir(etkinlik_id):
+    service = ConcertService()
+    success, message = service.populer_kaldir(etkinlik_id)
+
+    flash(message, "success")
+    return redirect(url_for('app_routes.admin_tumetkinlikler'))

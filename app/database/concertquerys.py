@@ -5,7 +5,7 @@ class ConcertQueries:
         
 
     def get_all_concert_ad(self):
-        query = 'SELECT "etkinlikAd","img","etkinlikID" FROM etkinlik;'
+        query = 'SELECT "etkinlikAd","img","etkinlikID", "populer_mi" FROM etkinlik;'
         try:
             concerts = self.db.execute_query(query, fetch=True)
             return concerts if concerts is not None else []
@@ -146,5 +146,39 @@ class ConcertQueries:
             return True
         except Exception as e:
             print("Ekleme hatası:", e)
+            self.db.conn.rollback()
+            return False
+        
+        
+    def populer_sayi(self):
+        query = 'SELECT COUNT(*) FROM etkinlik WHERE populer_mi = TRUE;'
+        result = self.db.execute_query(query, fetch=True)
+        return result[0][0] if result else 0
+    
+    def populer_yap(self, etkinlik_id):
+        query = '''
+            UPDATE etkinlik 
+            SET populer_mi = TRUE 
+            WHERE "etkinlikID" = %s;
+        '''
+        try:
+            self.db.execute_query(query, (etkinlik_id,))
+            return True
+        except Exception as e:
+            print("Popüler yapma hatası:", e)
+            self.db.conn.rollback()
+            return False
+        
+    def populer_kaldir(self, etkinlik_id):
+        query = '''
+            UPDATE etkinlik 
+            SET populer_mi = FALSE 
+            WHERE "etkinlikID" = %s;
+        '''
+        try:
+            self.db.execute_query(query, (etkinlik_id,))
+            return True
+        except Exception as e:
+            print("Popüler kaldırma hatası:", e)
             self.db.conn.rollback()
             return False

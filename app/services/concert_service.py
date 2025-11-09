@@ -40,5 +40,16 @@ class ConcertService:
     def for_admin_add_kategori(self,kategori_adi):
         return self.query.add_kategori(kategori_adi)
     
+    def populer_yap(self, etkinlik_id):
+        mevcut_sayi = self.query.populer_sayi()
+        if mevcut_sayi >= 3:
+            return False, "En fazla 3 etkinlik popüler olabilir!"
+        self.query.populer_yap(etkinlik_id)
+        return True, "Etkinlik popüler yapıldı."
+
+    def populer_kaldir(self, etkinlik_id):
+        self.query.populer_kaldir(etkinlik_id)
+        return True, "Etkinlik popülerlikten çıkarıldı."
+    
     
     

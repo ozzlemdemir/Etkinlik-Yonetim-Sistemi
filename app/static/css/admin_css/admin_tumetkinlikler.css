@@ -100,3 +100,24 @@ body {
   background-color: #bb2d3b;
   transform: scale(1.05);
 }
+.btn-popular {
+  background: #ff9800;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+.btn-popular:hover {
+  background: #e68900;
+}
+
+.btn-unpopular {
+  background: #607d8b;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+.btn-unpopular:hover {
+  background: #4b636e;
+}
