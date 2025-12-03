@@ -87,7 +87,7 @@ class ConcertQueries:
                 '''
                 for k in kullanicilar:
                     alici_id = k[0]
-                    self.db.execute_query(query_notify, (alici_id, 200, mesaj))
+                    self.db.execute_query(query_notify, (alici_id, 200, mesaj))#200 sistem yöneticisi id
 
             
             self.db.conn.commit()
