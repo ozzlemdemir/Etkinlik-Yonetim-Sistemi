@@ -41,3 +41,12 @@ class UserService:
         
     def bildirimleri_getir(self, kullanici_id):
         return self.query.bildirimleri_getir(kullanici_id)
+    
+    def get_user_by_id_for_remember_token(self, user_id):
+        return self.query.get_user_by_id_for_remember_token(user_id)
+
+    def kaydet_remember_token(self, user_id, token):
+        return self.query.token_kaydetme(user_id, token)
+
+    
+       

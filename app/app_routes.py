@@ -5,6 +5,9 @@ from app.services.concert_service import ConcertService
 from app.services.ticket_service import TicketService
 from app.services.user_service import UserService
 from app.utils.decorators import role_required
+from itsdangerous import URLSafeTimedSerializer
+#cookie için serializer 
+serializer = URLSafeTimedSerializer("SECRET_KEY")
 
 
 app_routes = Blueprint('app_routes', __name__)
@@ -19,28 +22,49 @@ def login():
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
+        remember = request.form.get("remember_me")
 
         service = UserService()
         result = service.login(email, password)
 
-        if result["success"]:
-            user = result["user"]
-            session["user_id"] = user[0]  # userID
-            session["user_name"] = user[1]  # name
-            session["role"] = result["role"]
-
-            if result["role"] == "admin":
-                flash("Admin girişi başarılı!", "success")
-                return redirect(url_for("app_routes.admin_dashboard"))
-            else:
-                flash("Giriş başarılı!", "success")
-                return redirect(url_for("app_routes.index"))
-
-        else:
+        if not result["success"]:
             flash(result["message"], "danger")
             return redirect(url_for("app_routes.login"))
 
+        user = result["user"]
+
+        # Session Kaydet
+        session["user_id"] = user[0]
+        session["user_name"] = user[1]
+        session["role"] = result["role"]
+
+        # ---- Remember Token ----
+        if remember:
+            token = serializer.dumps(user[0])
+            response = redirect(url_for("app_routes.index"))
+
+            response.set_cookie(
+                "remember_token",
+                token,
+                max_age=60*60*24*7,
+                httponly=True,
+                samesite="Lax"
+            )
+
+            UserService().kaydet_remember_token(user[0], token)
+            flash("Beni Hatırla etkinleştirildi ✔", "info")
+            return response
+
+        # ---- Role Yönlendirme ----
+        if result["role"] == "admin":
+            return redirect(url_for("app_routes.admin_dashboard"))
+        else:
+            return redirect(url_for("app_routes.index"))
+
     return render_template("login.html")
+
+
+
 
 @app_routes.route('/admin_dashboard')
 @role_required(["admin"])
@@ -74,6 +98,8 @@ def register():
 @app_routes.route('/logout')
 def logout():
     session.clear()
+    response = redirect(url_for("app_routes.login"))
+    response.delete_cookie("remember_token")
     flash("Başarıyla çıkış yapıldı.", "info")
     return redirect(url_for("app_routes.login"))
 
@@ -81,6 +107,12 @@ def logout():
 def index():
     user_id=session.get("user_id")
     user_name = session.get("user_name")
+    
+    if session.get("remember_login"):
+        flash("Otomatik giriş yapıldı. Hoş geldiniz! 👋", "info")
+        print("Otomatik giriş yapıldı.") #burası çalışmadı tekrar bak 
+        session.pop("remember_login") 
+    
     service = ConcertService()
     concert_data = service.get_concert_adi_populer()
     soon_concert=service.get_soon_concert_adi(user_id)

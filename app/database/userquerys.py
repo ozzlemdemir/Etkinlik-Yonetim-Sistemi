@@ -65,3 +65,35 @@ class UserQueries:
         except Exception as e:
             print("Bildirim sorgu hatası:", e)
             return []
+        
+   
+        
+    def token_kaydetme(self, user_id, token):
+        query = "UPDATE users SET remember_token = %s WHERE userID = %s;"
+        try:
+            self.db.execute_query(query, (token, user_id))
+            self.db.conn.commit()
+        except Exception as e:
+            print("Token kaydetme hatası:", e)
+            self.db.conn.rollback()
+
+    def get_user_by_id_for_remember_token(self, user_id):
+        query = """
+            SELECT 
+                userid,
+                name,
+                mail,
+                password,
+                "roleID",
+                remember_token
+            FROM users
+            WHERE userid = %s;
+        """
+        try:
+            user = self.db.execute_query(query, (user_id,), fetch=True)
+            return user[0] if user else None
+        except Exception as e:
+            print("Kullanıcı çekme hatası:", e)
+            self.db.conn.rollback()
+            return None
+            
