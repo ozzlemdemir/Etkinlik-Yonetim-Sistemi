@@ -32,13 +32,11 @@ def login():
             return redirect(url_for("app_routes.login"))
 
         user = result["user"]
-
-        # Session Kaydet
         session["user_id"] = user[0]
         session["user_name"] = user[1]
         session["role"] = result["role"]
+        
 
-        # ---- Remember Token ----
         if remember:
             token = serializer.dumps(user[0])
             response = redirect(url_for("app_routes.index"))
@@ -55,7 +53,6 @@ def login():
             flash("Beni Hatırla etkinleştirildi ✔", "info")
             return response
 
-        # ---- Role Yönlendirme ----
         if result["role"] == "admin":
             return redirect(url_for("app_routes.admin_dashboard"))
         else:
@@ -328,7 +325,6 @@ def etkinlik_ekle():
         else:
             flash('Lütfen tüm alanları doldurun.', 'danger')
 
-    # 🔻 Kategorileri HTML'e gönder
     return render_template(
         'partials/admin_partial/admin_etkinlik_ekle.html',
         kategoriler=kategoriler
