@@ -51,5 +51,8 @@ class ConcertService:
         self.query.populer_kaldir(etkinlik_id)
         return True, "Etkinlik popülerlikten çıkarıldı."
     
+    def etkinlik_click_kaydet(self, user_id, etkinlik_id):
+        self.query.etkinlik_click(user_id, etkinlik_id)
+    
     
     

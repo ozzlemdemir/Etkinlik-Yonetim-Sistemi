@@ -145,9 +145,18 @@ def biletbyid():
 @app_routes.route('/etkinlik_detay/<int:etkinlik_id>')
 @role_required(["user"])
 def etkinlik_detay(etkinlik_id):
-    service=ConcertService()
+    service = ConcertService()
+    user_id=session.get("user_id")
+
+    user_id = session.get("user_id") 
+    service.etkinlik_click_kaydet(user_id, etkinlik_id)
     etkinlik = service.etkinlik_getir_by_id(etkinlik_id)
-    return render_template('etkinlik_detay.html', etkinlik=etkinlik,etkinlik_id=etkinlik_id)
+
+    return render_template(
+        'etkinlik_detay.html',
+        etkinlik=etkinlik,
+        etkinlik_id=etkinlik_id
+    )
 
 @app_routes.route('/bilet_al/<int:etkinlik_id>')
 @role_required(["user"])

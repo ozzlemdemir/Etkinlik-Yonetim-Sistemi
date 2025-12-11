@@ -182,3 +182,24 @@ class ConcertQueries:
             print("Popüler kaldırma hatası:", e)
             self.db.conn.rollback()
             return False
+        
+    def etkinlik_click(self, user_id, etkinlik_id):
+        query = """
+            INSERT INTO event_clicks (user_id, etkinlik_id)
+            VALUES (%s, %s)
+        """
+        self.db.execute_query(query, (user_id, etkinlik_id))
+        
+    #3 ten fazla tıklanan etkinlikleri getiren sorgy
+    def get_recommended_events(self, user_id):
+        query = """
+            SELECT event_id, COUNT(*) as total
+            FROM event_clicks
+            WHERE user_id = %s
+            GROUP BY etkinlik_id
+            HAVING total >= 3
+            ORDER BY total DESC
+            LIMIT 5;
+        """
+        result = self.db.execute_query(query, (user_id,), fetch=True)
+        return [row[0] for row in result]  
