@@ -53,6 +53,9 @@ class ConcertService:
     
     def etkinlik_click_kaydet(self, user_id, etkinlik_id):
         self.query.etkinlik_click(user_id, etkinlik_id)
+        
+    def onerilen_etkinlikler(self, user_id):
+        return self.query.get_recommended_events(user_id)
     
     
     

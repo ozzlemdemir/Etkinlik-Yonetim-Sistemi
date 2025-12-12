@@ -190,16 +190,17 @@ class ConcertQueries:
         """
         self.db.execute_query(query, (user_id, etkinlik_id))
         
-    #3 ten fazla tıklanan etkinlikleri getiren sorgy
     def get_recommended_events(self, user_id):
         query = """
-            SELECT event_id, COUNT(*) as total
-            FROM event_clicks
-            WHERE user_id = %s
-            GROUP BY etkinlik_id
-            HAVING total >= 3
-            ORDER BY total DESC
+            SELECT e."etkinlikID", e."etkinlikAd", e.img, e.tarih, e.adres, COUNT(*) AS clicks
+            FROM event_clicks ec
+            JOIN etkinlik e ON e."etkinlikID" = ec.etkinlik_id
+            LEFT JOIN biletler b ON b.etkinlikID = ec.etkinlik_id AND b.userid = %s
+            WHERE ec.user_id = %s AND b.userid IS NULL
+            GROUP BY e."etkinlikID", e."etkinlikAd", e.img, e.tarih, e.adres
+            HAVING COUNT(*) >= 3
+            ORDER BY clicks DESC
             LIMIT 5;
         """
-        result = self.db.execute_query(query, (user_id,), fetch=True)
-        return [row[0] for row in result]  
+        rows = self.db.execute_query(query, (user_id, user_id), fetch=True)
+        return rows if rows else []

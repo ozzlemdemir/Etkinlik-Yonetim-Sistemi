@@ -1,0 +1,100 @@
+body {
+  transform: scale(0.75); /* %75 küçültme */
+  transform-origin: top left; /* sol üstten ölçekle */
+  width: 133.33%; /* scale = 0.75 olduğunda %100 görünmesi için */
+}
+
+/* Container içinde scale KALKSIN → bozuyordu */
+.recommend-container {
+    margin: 0 auto;
+    padding-top: 20px;
+    max-width: 1200px;
+}
+
+/* Başlık */
+.title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+/* Kart Alanı */
+.recommend-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+}
+
+/* Kart */
+.recommend-card {
+    width: 260px;
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: transform .25s ease, box-shadow .25s ease;
+    cursor: pointer;
+
+    /* YÜKSEKLİK OTOMATİK → taşma olmaz */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Hover */
+.recommend-card:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.28);
+}
+
+/* Kart resmi */
+.recommend-img {
+    width: 100%;
+    height: 180px;     /* daha stabil görünüm */
+    object-fit: cover;
+}
+
+/* Kart içi */
+.recommend-info {
+    padding: 14px;
+    flex-grow: 1; /* içerik alta ittirilir — buton görünür */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Etkinlik adı */
+.recommend-info h5 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    height: 40px;                  
+    overflow: hidden;               /* taşma yok */
+}
+
+/* Tarih */
+.recommend-info .date {
+    font-size: 0.85rem;
+    color: #555;
+    margin-bottom: 12px;
+}
+
+/* Buton */
+.recommend-btn {
+    margin-top: auto;               /* butonu en alta sabitler */
+    padding: 10px 0;
+    background: #4F46E5;
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 0.92rem;
+    font-weight: 600;
+    display: block;
+    text-decoration: none;
+    transition: 0.25s ease;
+}
+
+.recommend-btn:hover {
+    background: #4338CA;
+    letter-spacing: 0.5px;
+}

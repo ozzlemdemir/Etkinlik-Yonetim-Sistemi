@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/oneriler.css') }}">
+{% endblock %}
+
+{% block title %}Öneriler{% endblock %}
+{% block content %}
+<div class="recommend-container">
+    <h3 class="title">Almak İsteyebileceğiniz Konser Biletleri</h3>
+
+    {% if recs and recs|length > 0 %}
+    <div class="recommend-cards">
+        {% for r in recs %}
+        <div class="recommend-card">
+            <img src="{{ url_for('static', filename=r[2]) }}" class="recommend-img">
+
+            <div class="recommend-info">
+                <h5>{{ r[1] }}</h5>
+                <p class="date"> {{ r[4] }}</p>
+                <a href="{{ url_for('app_routes.etkinlik_detay', etkinlik_id=r[0]) }}" 
+                   class="recommend-btn">İncele / Bilet Al</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p>Henüz sana özel öneri yok. Bazı etkinliklerin detay sayfasına birkaç kez göz at!</p>
+    {% endif %}
+</div>
+
+
+
+
+{% endblock %}

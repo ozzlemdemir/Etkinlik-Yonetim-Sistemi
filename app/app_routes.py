@@ -369,3 +369,13 @@ def populer_kaldir(etkinlik_id):
 
     flash(message, "success")
     return redirect(url_for('app_routes.admin_tumetkinlikler'))
+
+@app_routes.route('/oneriler')
+@role_required(["user"])   
+def oneriler():
+    user_id = session.get("user_id")
+    service = ConcertService()
+    recs = service.onerilen_etkinlikler(user_id)
+    print("RECOMMENDATION RESULTS:", recs)
+
+    return render_template('oneriler.html', recs=recs)
