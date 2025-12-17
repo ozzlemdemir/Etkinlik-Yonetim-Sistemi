@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+{% block title %}PROFİLİM{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/user_profil.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <h2>Profilimi Yönet</h2>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" class="profile-form">
+        <section>
+            <h3>Temel Bilgiler</h3>
+            <div class="input-box">
+                <label for="name">Ad Soyad</label>
+                <input type="text" name="name" id="name" value="{{ user.name }}" required>
+            </div>
+            <div class="input-box">
+                <label for="email">E-posta</label>
+                <input type="email" name="email" id="email" value="{{ user.mail }}" required>
+            </div>
+        </section>
+
+        <hr>
+
+        <section>
+            <h3>Güvenlik</h3>
+            <div class="input-box">
+                <label for="current_password">Mevcut Şifre</label>
+                <input type="password" name="current_password" id="current_password" placeholder="Değiştirmek istemiyorsanız boş bırakın">
+            </div>
+            <div class="input-box">
+                <label for="new_password">Yeni Şifre</label>
+                <input type="password" name="new_password" id="new_password" placeholder="En az 6 karakter">
+            </div>
+        </section>
+
+        <button type="submit" class="save-btn">Değişiklikleri Uygula</button>
+    </form>
+</div>
+{% endblock %}

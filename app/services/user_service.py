@@ -47,6 +47,26 @@ class UserService:
 
     def kaydet_remember_token(self, user_id, token):
         return self.query.token_kaydetme(user_id, token)
+    
+    #admin servis fonksiyonları(profil bilgileri için)
+    def get_admin_by_id(self, user_id):
+        return self.query.get_admin_by_id(user_id)
+    def admin_isim_guncelleme(self, user_id, yeni_isim):
+        return self.query.admin_isim_guncelle(user_id, yeni_isim)
+    def admin_mail_guncelleme(self, user_id, yeni_mail):
+        return self.query.admin_mail_guncelle(user_id, yeni_mail)
+    def admin_sifre_guncelleme(self, user_id, yeni_sifre):
+        return self.query.admin_sifre_guncelle(user_id, yeni_sifre)
+    
+    #"user" servis fonksiyonları(profil bilgileri için)
+    def get_user_by_id_profil(self, user_id):
+        return self.query.get_user_by_id_profil(user_id)
+    def user_isim_guncelleme(self, user_id, yeni_isim):
+        return self.query.user_isim_guncelle(user_id, yeni_isim)
+    def user_mail_guncelleme(self, user_id, yeni_mail):
+        return self.query.user_mail_guncelle(user_id, yeni_mail)
+    def user_sifre_guncelleme(self, user_id, yeni_sifre):
+        return self.query.user_sifre_guncelle(user_id, yeni_sifre)
 
     
        

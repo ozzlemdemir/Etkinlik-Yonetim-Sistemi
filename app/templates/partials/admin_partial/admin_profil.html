@@ -1,0 +1,58 @@
+{% include 'partials/admin_partial/_admin_navbar.html' %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_css/admin.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_css/admin_profil.css') }}">
+{% endblock %}
+
+<div class="admin-container">
+    <div class="profile-card">
+        <div class="card-header">
+            <i class="fas fa-user-cog"></i>
+            <h2>Profil Yönetimi</h2>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <div class="form-section">
+                <h3><i class="fas fa-id-card"></i> Kişisel Bilgiler</h3>
+                <div class="input-group">
+                    <label for="name">Ad Soyad</label>
+                    <input type="text" name="name" id="name" value="{{ admin.name }}" placeholder="Adınızı giriniz" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">E-posta Adresi</label>
+                    <input type="email" name="email" id="email" value="{{ admin.mail }}" placeholder="E-posta adresinizi giriniz" required>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="form-section">
+                <h3><i class="fas fa-key"></i> Parolayı Değiştir</h3>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="current_password">Mevcut Parola</label>
+                        <input type="password" name="current_password" id="current_password" placeholder="********">
+                    </div>
+                    <div class="input-group">
+                        <label for="new_password">Yeni Parola</label>
+                        <input type="password" name="new_password" id="new_password" placeholder="********">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-update">
+                <i class="fas fa-save"></i> Bilgileri Güncelle
+            </button>
+        </form>
+    </div>
+</div>

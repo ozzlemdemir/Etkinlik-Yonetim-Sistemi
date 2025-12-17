@@ -97,3 +97,103 @@ class UserQueries:
             self.db.conn.rollback()
             return None
             
+            
+    def get_admin_by_id(self, admin_id):
+        query = 'SELECT userid, name, mail, password FROM users WHERE "roleID" = 101 AND userid = %s;'
+        results = self.db.execute_query(query, (admin_id,), fetch=True)
+        
+        if results:
+            user_tuple = results[0]
+  
+            admin_data = {
+                'userid': user_tuple[0],
+                'name': user_tuple[1], 
+                'mail': user_tuple[2], 
+                'password': user_tuple[3]
+            }
+            return admin_data
+        else:
+            return None
+        
+    def admin_isim_guncelle(self,admin_id,new_name):
+        query='UPDATE users SET name=%s WHERE userid=%s AND "roleID" = 101;'
+        try:
+            self.db.execute_query(query,(new_name,admin_id))
+            self.db.conn.commit()
+            return True
+        except Exception as e:
+            print("Admin isim güncelleme hatası:", e)
+            self.db.conn.rollback()
+            return False
+        
+    def admin_mail_guncelle(self,admin_id,new_mail):
+        query='UPDATE users SET mail=%s WHERE userid=%s AND "roleID" = 101;'
+        try:
+            self.db.execute_query(query,(new_mail,admin_id))
+            self.db.conn.commit()
+            return True
+        except Exception as e:
+            print("Admin mail güncelleme hatası:", e)
+            self.db.conn.rollback()
+            return False
+        
+    def admin_sifre_guncelle(self, admin_id, new_hashed_password_str):
+    
+        query = 'UPDATE users SET password = %s WHERE userid = %s AND "roleID" = 101;'
+        try:
+            self.db.execute_query(query, (new_hashed_password_str, admin_id))
+            self.db.conn.commit()
+            return True
+        except Exception as e:
+            print("Admin şifre güncelleme hatası:", e)
+            self.db.conn.rollback()
+            return False
+      
+      
+    def get_user_by_id_profil(self, user_id):
+        query = 'SELECT userid, name, mail, password FROM users WHERE "roleID" = 100 AND userid = %s;'
+        results = self.db.execute_query(query, (user_id,), fetch=True)
+        
+        if results:
+            user_tuple = results[0]
+  
+            user_data = {
+                'userid': user_tuple[0],
+                'name': user_tuple[1], 
+                'mail': user_tuple[2], 
+                'password': user_tuple[3]
+            }
+            return user_data
+        else:
+            return None  
+    def user_isim_guncelle(self,user_id,new_name):
+        query='UPDATE users SET name=%s WHERE userid=%s AND "roleID" = 100;'
+        try:
+            self.db.execute_query(query,(new_name,user_id))
+            self.db.conn.commit()
+            return True
+        except Exception as e:
+            print("Kullanıcı isim güncelleme hatası:", e)
+            self.db.conn.rollback()
+            return False
+    def user_mail_guncelle(self,user_id,new_mail):
+        query='UPDATE users SET mail=%s WHERE userid=%s AND "roleID" = 100;'
+        try:
+            self.db.execute_query(query,(new_mail,user_id))
+            self.db.conn.commit()
+            return True
+        except Exception as e:
+            print("Kullanıcı mail güncelleme hatası:", e)
+            self.db.conn.rollback()
+            return False
+    def user_sifre_guncelle(self, user_id, new_hashed_password_str):
+    
+        query = 'UPDATE users SET password = %s WHERE userid = %s AND "roleID" = 100;'
+        try:
+            self.db.execute_query(query, (new_hashed_password_str, user_id))
+            self.db.conn.commit()
+            return True
+        except Exception as e:
+            print("Kullanıcı şifre güncelleme hatası:", e)
+            self.db.conn.rollback()
+            return False

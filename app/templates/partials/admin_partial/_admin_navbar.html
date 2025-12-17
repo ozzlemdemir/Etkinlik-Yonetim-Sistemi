@@ -1,7 +1,21 @@
+
 <nav class="navbar">
-  <a href="{{ url_for('app_routes.admin_dashboard') }}" class="logo">🎟️ EtkinlikAdmin</a>
-  <ul>
-<li><a href="{{ url_for('app_routes.admin_tumetkinlikler') }}">Tüm Etkinlikler</a></li>
-    <li><a href="{{ url_for('app_routes.logout') }}">Çıkış</a></li>
-  </ul>
+    <a href="{{ url_for('app_routes.admin_dashboard') }}" class="logo">🎟️ EtkinlikAdmin</a>
+    
+    <ul class="menu">
+        <li><a href="{{ url_for('app_routes.admin_tumetkinlikler') }}">Tüm Etkinlikler</a></li>
+        
+        <li>
+            <a href="{{ url_for('app_routes.admin_profil') }}" class="profile-link">
+                <i class="fas fa-user-circle"></i> Profil Bilgilerim
+            </a>
+        </li>
+        <li>
+            <a href="{{url_for('app_routes.admin_dashboard')}}">Ana Sayfa</a>
+        </li>
+    </ul>
+
+    <ul class="right-links">
+        <li><a href="{{ url_for('app_routes.logout') }}">Çıkış</a></li>
+    </ul>
 </nav>

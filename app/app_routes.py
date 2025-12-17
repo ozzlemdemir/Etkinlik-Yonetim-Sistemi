@@ -6,6 +6,7 @@ from app.services.ticket_service import TicketService
 from app.services.user_service import UserService
 from app.utils.decorators import role_required
 from itsdangerous import URLSafeTimedSerializer
+import bcrypt
 #cookie için serializer 
 serializer = URLSafeTimedSerializer("SECRET_KEY")
 
@@ -99,6 +100,47 @@ def logout():
     response.delete_cookie("remember_token")
     flash("Başarıyla çıkış yapıldı.", "info")
     return redirect(url_for("app_routes.login"))
+
+@app_routes.route('/profil', methods=['GET', 'POST'])
+@role_required(["user"])
+def profil():
+    user_id = session.get("user_id")
+    user_service = UserService()
+
+    user_info = user_service.get_user_by_id_profil(user_id)
+    if not user_info:
+        flash('Kullanıcı bilgileri bulunamadı.', 'danger')
+        return redirect(url_for('app_routes.index')) # Ana sayfaya veya login'e yönlendir
+
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        current_password = request.form.get('current_password')
+        new_password = request.form.get('new_password')
+
+        if name and name != user_info['name']:
+            if user_service.user_isim_guncelleme(user_id, name):
+                session['user_name'] = name
+                flash('Adınız güncellendi.', 'success')
+
+        if email and email != user_info['mail']:
+            if user_service.user_mail_guncelleme(user_id, email):
+                flash('E-posta adresiniz güncellendi.', 'success')
+                
+        if current_password and new_password:
+            db_hash = user_info['password'].encode('utf-8')
+            if bcrypt.checkpw(current_password.encode('utf-8'), db_hash):
+                new_hashed = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+                if user_service.user_sifre_guncelleme(user_id, new_hashed.decode('utf-8')):
+                    flash('Şifreniz başarıyla değiştirildi.', 'success')
+                else:
+                    flash('Şifre güncellenirken hata oluştu.', 'danger')
+            else:
+                flash('Mevcut şifreniz hatalı.', 'danger')
+                
+        return redirect(url_for('app_routes.profil'))
+
+    return render_template("user_profil.html", user=user_info)
 
 @app_routes.route('/index')
 def index():
@@ -379,3 +421,67 @@ def oneriler():
     print("RECOMMENDATION RESULTS:", recs)
 
     return render_template('oneriler.html', recs=recs)
+
+
+@app_routes.route('/admin/profil', methods=['GET', 'POST'])
+@role_required(["admin"])
+def admin_profil():
+    
+    admin_id = session['user_id']
+    user_service = UserService()
+    try:
+        admin_info = user_service.get_admin_by_id(admin_id)
+        if not admin_info:
+            flash('Admin bilgileri veritabanında bulunamadı.', 'danger')
+            return redirect(url_for('app_routes.admin_dashboard')) 
+    except Exception as e:
+        flash(f'Veritabanı bağlantı hatası: {e}', 'danger')
+        return redirect(url_for('app_routes.admin_dashboard')) 
+    
+    if request.method == 'POST':
+    
+        name = request.form.get('name')
+        email = request.form.get('email')
+        current_password = request.form.get('current_password')
+        new_password = request.form.get('new_password')
+    
+        if name and name != admin_info['name']:
+            if user_service.admin_isim_guncelleme(admin_id, name):
+                session['name'] = name 
+                admin_info['name'] = name 
+                flash('Adınız başarıyla güncellendi.', 'success')
+            else:
+                flash('Adınız güncellenirken bir hata oluştu.', 'danger')
+
+        
+        if email and email != admin_info['mail']:
+            if user_service.admin_mail_guncelleme(admin_id, email):
+                admin_info['mail'] = email 
+                flash('E-posta adresiniz başarıyla güncellendi.', 'success')
+            else:
+                flash('E-posta güncellenirken bir hata oluştu.', 'danger')
+
+        if current_password and new_password:
+        
+            db_hash = admin_info['password'].encode('utf-8')
+            
+            try:
+                
+                if bcrypt.checkpw(current_password.encode('utf-8'), db_hash):
+               
+                    new_hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+                    if user_service.admin_sifre_guncelleme(admin_id, new_hashed_password.decode('utf-8')):
+                        flash('Parolanız başarıyla değiştirildi.', 'success')
+                        admin_info['password'] = new_hashed_password.decode('utf-8')
+                    else:
+                        flash('Parola güncellenirken veritabanı hatası oluştu.', 'danger')
+                        
+                else:
+                    flash('Mevcut parolanız hatalı. Lütfen tekrar deneyin.', 'danger')
+
+            except Exception as e:
+                flash(f'Parola işlemi sırasında beklenmeyen bir hata oluştu: {e}', 'danger')
+
+        return redirect(url_for('app_routes.admin_profil')) 
+    
+    return render_template('partials/admin_partial/admin_profil.html', admin=admin_info)
