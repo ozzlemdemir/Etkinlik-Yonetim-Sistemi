@@ -1,13 +1,23 @@
 from flask import Flask, request, session
-from itsdangerous import URLSafeTimedSerializer, BadSignature
-from app.app_routes import app_routes
-
-serializer = URLSafeTimedSerializer("SECRET_KEY")
+from .extensions import mail, serializer # Buradan çekiyoruz
 
 def create_app():
     app = Flask(__name__)
+    
+    # Mail Konfigürasyonu
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USERNAME'] = 'test@gmail.com'
+    app.config['MAIL_PASSWORD'] = 'password'
+    app.config['MAIL_SUPPRESS_SEND'] = True 
     app.secret_key = "çok_gizli_bir_anahtar"
 
+    # Mail'i başlat
+    mail.init_app(app)
+
+    # DÖNGÜYÜ KIRAN NOKTA: Importu tam burada yapıyoruz
+    from app.app_routes import app_routes
     app.register_blueprint(app_routes)
 
     @app.before_request

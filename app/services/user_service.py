@@ -67,6 +67,18 @@ class UserService:
         return self.query.user_mail_guncelle(user_id, yeni_mail)
     def user_sifre_guncelleme(self, user_id, yeni_sifre):
         return self.query.user_sifre_guncelle(user_id, yeni_sifre)
+    
+    #şifremi unuttum ile ilgili servis fonksiyonları
+    def find_user_by_mail(self, email):
+        return self.query.find_user_by_mail(email)
+    def insert_reset_token(self, user_id, token, expiration):
+        return self.query.insert_reset_token(user_id, token, expiration)
+    def token_gecerli_mi(self, token):
+        return self.query.token_gecerli_mi(token)
+    def token_kullanildi(self,token):
+        return self.query.token_kullanildi(token)
+    def update_user_password_by_id(self, user_id, new_hashed_password_str):
+        return self.query.update_user_password_by_id(user_id, new_hashed_password_str)
 
     
        

@@ -7,6 +7,10 @@ from app.services.user_service import UserService
 from app.utils.decorators import role_required
 from itsdangerous import URLSafeTimedSerializer
 import bcrypt
+from flask_mail import Message
+from app import mail
+import secrets
+from datetime import datetime, timedelta
 #cookie için serializer 
 serializer = URLSafeTimedSerializer("SECRET_KEY")
 
@@ -485,3 +489,76 @@ def admin_profil():
         return redirect(url_for('app_routes.admin_profil')) 
     
     return render_template('partials/admin_partial/admin_profil.html', admin=admin_info)
+
+
+#şifremi unuttum route'ları
+@app_routes.route('/sifremi-unuttum', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        if not email:
+            flash('Lütfen e-posta adresinizi giriniz.', 'danger')
+            return redirect(url_for('app_routes.forgot_password'))
+        user_service = UserService()
+        
+        user = user_service.find_user_by_mail(email) 
+        
+        if user:
+            token = secrets.token_urlsafe(32)
+            expiration = datetime.now() + timedelta(minutes=30)
+        
+            user_service.insert_reset_token(user[0], token, expiration)
+          
+            reset_url = url_for('app_routes.reset_password', token=token, _external=True)
+
+            print("\n" + "*"*60)
+            print(f"SIFIRLAMA LINKI: {reset_url}")
+            print("*"*60 + "\n")
+            # -
+            msg = Message('Şifre Sıfırlama Talebi',
+                          sender='noreply@etkinlikapp.com',
+                          recipients=[email])
+            msg.body = f"Şifrenizi sıfırlamak için şu bağlantıya tıklayın: {reset_url}"
+    
+            mail.send(msg) 
+            
+            flash('Şifre sıfırlama bağlantısı e-posta adresinize (Terminalinize) gönderildi.', 'info')
+            return redirect(url_for('app_routes.login'))
+        else:
+            flash('Bu e-posta adresiyle kayıtlı bir kullanıcı bulunamadı.', 'danger')
+            
+    return render_template('forgot_password.html')
+
+@app_routes.route('/sifre-sifirla/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    user_service = UserService()
+    
+    user_id = user_service.token_gecerli_mi(token)
+    
+    if not user_id:
+        flash('Geçersiz veya süresi dolmuş sıfırlama bağlantısı.', 'danger')
+        return redirect(url_for('app_routes.forgot_password'))
+
+    if request.method == 'POST':
+        new_password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+        
+        if not new_password or not confirm_password:
+            flash('Lütfen tüm alanları doldurunuz.', 'danger')
+            return render_template('reset_password.html', token=token)
+        
+        if new_password != confirm_password:
+            flash('Şifreler birbiriyle eşleşmiyor.', 'danger')
+            return render_template('reset_password.html', token=token)
+    
+        hashed_pw = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        
+        if user_service.update_user_password_by_id(user_id, hashed_pw):
+            user_service.token_kullanildi(token)
+            
+            flash('Şifreniz başarıyla sıfırlandı. Giriş yapabilirsiniz.', 'success')
+            return redirect(url_for('app_routes.login'))
+        else:
+            flash('Veritabanı güncellenirken bir hata oluştu.', 'danger')
+
+    return render_template('reset_password.html', token=token)

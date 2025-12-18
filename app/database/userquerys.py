@@ -197,3 +197,57 @@ class UserQueries:
             print("Kullanıcı şifre güncelleme hatası:", e)
             self.db.conn.rollback()
             return False
+        
+        
+#şifremi unuttum ile ilgili fonksiyonlar
+    def find_user_by_mail(self, email):
+        query = "SELECT userid, name, mail FROM users WHERE mail = %s;"
+        try:
+            result = self.db.execute_query(query, (email,), fetch=True)
+            return result[0] if result else None
+        except Exception as e:
+            print("E-posta ile kullanıcı arama hatası:", e)
+            return None
+
+    def insert_reset_token(self, user_id, token, expiration):
+        query = '''INSERT INTO password_resets (user_id, token, expiration) 
+                  VALUES (%s, %s, %s);'''
+        try:
+            self.db.execute_query(query, (user_id, token, expiration))
+            self.db.conn.commit()
+            return True
+        except Exception as e:
+            print("Reset token ekleme hatası:", e)
+            self.db.conn.rollback()
+            return False
+    
+    def token_gecerli_mi(self,token):
+        query = '''SELECT user_id FROM password_resets 
+                   WHERE token = %s AND expiration > NOW();'''
+        try:
+            result = self.db.execute_query(query, (token,), fetch=True)
+            return result[0][0] if result else None
+        except Exception as e:
+            print("Token geçerlilik kontrol hatası:", e)
+            return None
+    def token_kullanildi(self,token):
+        query = '''UPDATE password_resets SET is_used = TRUE WHERE token = %s;'''
+        try:
+            self.db.execute_query(query, (token,))
+            self.db.conn.commit()
+            return True
+        except Exception as e:
+            print("Token kullanım güncelleme hatası:", e)
+            self.db.conn.rollback()
+            return False
+    def update_user_password_by_id(self, user_id, hashed_password):
+       
+        query = 'UPDATE users SET password = %s WHERE userid = %s;'
+        try:
+            self.db.execute_query(query, (hashed_password, user_id))
+            self.db.conn.commit()
+            return True
+        except Exception as e:
+            print("Şifre güncelleme hatası:", e)
+            self.db.conn.rollback()
+            return False
