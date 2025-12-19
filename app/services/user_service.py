@@ -79,6 +79,18 @@ class UserService:
         return self.query.token_kullanildi(token)
     def update_user_password_by_id(self, user_id, new_hashed_password_str):
         return self.query.update_user_password_by_id(user_id, new_hashed_password_str)
+    
+    #admin dashboard için servis fonksiyonları
+    def toplam_kullanici_sayisi(self):
+        return self.query.toplam_kullanici_sayisi()
+    def toplam_etkinlik_sayisi(self):
+        return self.query.toplam_etkinlik_sayisi()
+    def aktif_etkinlik_sayisi(self):
+        return self.query.aktif_etkinlik_sayisi() 
+    def satilan_bilet_sayisi(self):
+        return self.query.satilan_bilet_sayisi()
+    def tum_kategoriler(self):
+        return self.query.get_all_kategoriler()  
 
     
        

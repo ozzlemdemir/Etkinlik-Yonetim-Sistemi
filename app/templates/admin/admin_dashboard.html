@@ -1,36 +1,94 @@
 {% include 'partials/admin_partial/_admin_navbar.html' %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_css/admin.css') }}">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 {% endblock %}
 
 {% block content %}
-  <div class="container mt-5">
-    <h2>Admin Paneline Hoş Geldiniz!</h2>
-    {% if name_admin %}
-      <div class="welcome-message">
-        👋 Hoş geldin, <strong>{{ name_admin }}</strong>!
-      </div>
-    {% endif %}
-    <p>Buradan etkinlikleri, kullanıcıları ve biletleri yönetebilirsiniz.</p>
-     <div class="btn-group mt-4">
-    
-    <a href="{{ url_for('app_routes.kategori_ekle') }}" class="btn btn-primary mx-2">📂 Yeni Kategori Ekle</a>
-    <a href="{{ url_for('app_routes.etkinlik_ekle') }}" class="btn btn-primary mx-2">🎵 Yeni Etkinlik Ekle</a>
-  </div>
-  </div>
-  
+<div class="admin-wrapper">
+    <div class="container mt-5">
+        <header class="admin-header">
+            <div class="header-text">
+                <h2>Yönetim Paneli</h2>
+                {% if name_admin %}
+                    <p class="welcome-text">Hoş geldin, <strong>{{ name_admin }}</strong> 👋</p>
+                {% endif %}
+            </div>
+            <div class="header-actions">
+                <a href="{{ url_for('app_routes.kategori_ekle') }}" class="btn btn-secondary"><i class="fas fa-folder-plus"></i> Kategori</a>
+                <a href="{{ url_for('app_routes.etkinlik_ekle') }}" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Etkinlik</a>
+            </div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon blue"><i class="fas fa-calendar-alt"></i></div>
+                <div class="stat-info">
+                  {% if toplam_etkinlik is defined %}
+                    <h3>{{ toplam_etkinlik }}</h3>
+                    {% endif %}
+                    <p>Toplam Etkinlik</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green"><i class="fas fa-users"></i></div>
+                <div class="stat-info">
+                  {% if toplam_kullanici is defined %}
+                    <h3>{{ toplam_kullanici }}</h3>
+                    {% endif %}
+                    <p>Toplam Kullanıcı</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange"><i class="fas fa-ticket-alt"></i></div>
+                <div class="stat-info">
+                  {% if bilet_satis is defined %}
+                    <h3>{{ bilet_satis }}</h3>
+                    {% endif %}
+                    <p>Bilet Satışı</p>
+                </div>
+            </div>
+        </div>
+        <div class="stats-grid">
+
+<div class="data-section mt-5">
+    <div class="section-header">
+        <h3><i class="fas fa-list"></i> Mevcut Kategoriler</h3>
+    </div>
+    <div class="table-responsive">
+        <table class="modern-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Kategori Adı</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for kat in kategoriler %}
+                <tr>
+                    <td>#{{ kat[0] }}</td>
+                    <td><strong>{{ kat[1] }}</strong></td>
+                    <td>
+                        <button class="btn-icon edit"><i class="fas fa-edit"></i></button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+     
+    </div>
+</div>
+
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        const flashMessages = {{ messages | tojson | safe }};
-        flashMessages.forEach(function(item) {
-          const category = item[0];
-          const message = item[1];
-          alert(message);
-        });
-      });
+      // Flash mesajları için daha şık bir yöntem (Örn: Toast bildirimleri) kullanılabilir
+      // Şimdilik alert olarak kalıyor ama tasarıma uyumlu...
     </script>
   {% endif %}
 {% endwith %}

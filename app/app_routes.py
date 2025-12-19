@@ -72,7 +72,18 @@ def login():
 @role_required(["admin"])
 def admin_dashboard():
     name_admin = session.get("user_name")
-    return render_template("admin/admin_dashboard.html", name_admin=name_admin)
+    userService= UserService()
+    toplam_kullanici=userService.toplam_kullanici_sayisi()
+    toplam_etkinlik=userService.toplam_etkinlik_sayisi()
+    aktif_etkinlik=userService.aktif_etkinlik_sayisi()
+    bilet_satis=userService.satilan_bilet_sayisi()
+    kategoriler=userService.tum_kategoriler()
+    return render_template("admin/admin_dashboard.html", name_admin=name_admin, 
+                           toplam_kullanici=toplam_kullanici, 
+                           toplam_etkinlik=toplam_etkinlik, 
+                           aktif_etkinlik=aktif_etkinlik,
+                           bilet_satis=bilet_satis,
+                           kategoriler=kategoriler)
 
 @app_routes.route("/register", methods=["GET", "POST"])
 def register():
@@ -496,6 +507,7 @@ def admin_profil():
 def forgot_password():
     if request.method == 'POST':
         email = request.form.get('email')
+        print(f"DEBUG: Formdan gelen email: '{email}'")
         if not email:
             flash('Lütfen e-posta adresinizi giriniz.', 'danger')
             return redirect(url_for('app_routes.forgot_password'))

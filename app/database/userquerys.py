@@ -251,3 +251,46 @@ class UserQueries:
             print("Şifre güncelleme hatası:", e)
             self.db.conn.rollback()
             return False
+        
+#admin dashboard istatistik fonksiyonları
+    def toplam_kullanici_sayisi(self):
+        query = 'SELECT COUNT(*) FROM users WHERE "roleID" = 100;'
+        try:
+            result = self.db.execute_query(query, fetch=True)
+            return result[0][0] if result else 0
+        except Exception as e:
+            print("Toplam kullanıcı sayısı sorgu hatası:", e)
+            return 0
+    def toplam_etkinlik_sayisi(self):
+        query = 'SELECT COUNT(*) FROM etkinlik;'
+        try:
+            result = self.db.execute_query(query, fetch=True)
+            return result[0][0] if result else 0
+        except Exception as e:
+            print("Toplam etkinlik sayısı sorgu hatası:", e)
+            return 0
+    def aktif_etkinlik_sayisi(self):
+        query = 'SELECT COUNT(*) FROM etkinlik WHERE tarih >= NOW();'
+        try:
+            result = self.db.execute_query(query, fetch=True)
+            return result[0][0] if result else 0
+        except Exception as e:
+            print("Aktif etkinlik sayısı sorgu hatası:", e)
+            return 0
+    def satilan_bilet_sayisi(self):
+        query = 'SELECT COUNT(*) FROM biletler;'
+        try:
+            result = self.db.execute_query(query, fetch=True)
+            return result[0][0] if result else 0
+        except Exception as e:
+            print("Satılan bilet sayısı sorgu hatası:", e)
+            return 0
+    def get_all_kategoriler(self):
+        query = 'SELECT kategoriid, kategori_adi FROM kategori;'
+        try:
+            kategoriler = self.db.execute_query(query, fetch=True)
+            return kategoriler if kategoriler is not None else []
+        except Exception as e:
+            print("Kategoriler sorgu hatası:", e)
+            self.db.conn.rollback()  
+            return []
