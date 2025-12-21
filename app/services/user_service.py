@@ -90,7 +90,7 @@ class UserService:
     def satilan_bilet_sayisi(self):
         return self.query.satilan_bilet_sayisi()
     def tum_kategoriler(self):
-        return self.query.get_all_kategoriler()  
+        return self.query.get_all_kategoriler()
 
     
        
