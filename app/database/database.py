@@ -1,15 +1,14 @@
 import psycopg2
 
 class Database:
-    _instance = None  # Singleton 
-
+    _instance = None 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
             cls._instance = super(Database, cls).__new__(cls)
         return cls._instance
 
     def __init__(self, host="localhost", database="EtkinlikApp", user="postgres", password="samsun55"):
-        if not hasattr(self, 'conn'):  # sadece ilk seferde bağlantı kur
+        if not hasattr(self, 'conn'): 
             self.host = host
             self.database = database
             self.user = user

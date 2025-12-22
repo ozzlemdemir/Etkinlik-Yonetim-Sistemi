@@ -1,6 +1,12 @@
 body {
   background-color: #f6f7fb;
   font-family: 'Poppins', sans-serif;
+  margin: 0; /* Sayfa kenar boşluklarını sıfırlar */
+}
+
+/* Tüm linklerden alt çizgiyi kaldırır */
+a {
+  text-decoration: none !important;
 }
 
 /* Ana container */
@@ -29,18 +35,19 @@ body {
 .card {
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Biraz daha yumuşatıldı */
   background: #fff;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border: none; /* Varsa default border kaldırıldı */
 }
 
 .card:hover {
-  transform: scale(1.04);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px); /* Daha modern bir yükselme efekti */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
 .card-img-top {
@@ -51,62 +58,77 @@ body {
 
 .card-body {
   text-align: center;
-  padding: 10px 15px 20px;
+  padding: 15px;
 }
 
-/* Başlık */
+/* Başlık ve Metinler */
 .card-title {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  margin: 10px 0 15px 0;
+  margin-bottom: 15px;
   color: #444;
+  text-decoration: none; /* Alt çizgiyi garantiye alalım */
 }
 
 /* Buton grubu */
 .btn-group {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
+  margin-top: auto; /* Butonları en alta sabitler */
+  padding-bottom: 15px;
+}
+
+/* Genel Buton Ayarları */
+.btn-update, .btn-delete, .btn-popular, .btn-unpopular {
+  border: none;
+  outline: none;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 /* Güncelle butonu */
 .btn-update {
   background-color: #ffc107;
-  border: none;
   color: #333;
-  padding: 6px 14px;
+  padding: 8px 16px;
   border-radius: 8px;
-  font-size: 0.9rem;
-  transition: all 0.25s ease;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .btn-update:hover {
   background-color: #e0a800;
-  transform: scale(1.05);
 }
 
 /* Sil butonu */
 .btn-delete {
   background-color: #dc3545;
-  border: none;
   color: #fff;
-  padding: 6px 14px;
+  padding: 8px 16px;
   border-radius: 8px;
-  font-size: 0.9rem;
-  transition: all 0.25s ease;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .btn-delete:hover {
   background-color: #bb2d3b;
-  transform: scale(1.05);
 }
+
+/* Popüler ve Popüler Olmayan Butonları */
 .btn-popular {
   background: #ff9800;
   color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
   font-weight: 600;
+  font-size: 0.85rem;
 }
+
 .btn-popular:hover {
   background: #e68900;
 }
@@ -114,10 +136,12 @@ body {
 .btn-unpopular {
   background: #607d8b;
   color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
   font-weight: 600;
+  font-size: 0.85rem;
 }
+
 .btn-unpopular:hover {
   background: #4b636e;
 }

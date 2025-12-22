@@ -55,7 +55,7 @@ def login():
             )
 
             UserService().kaydet_remember_token(user[0], token)
-            flash("Beni Hatırla etkinleştirildi ✔", "info")
+            #flash("Beni Hatırla etkinleştirildi ✔", "info")
             return response
 
         if result["role"] == "admin":
@@ -164,7 +164,7 @@ def index():
     
     if session.get("remember_login"):
         flash("Otomatik giriş yapıldı. Hoş geldiniz! 👋", "info")
-        print("Otomatik giriş yapıldı.") #burası çalışmadı tekrar bak 
+        print("Otomatik giriş yapıldı.") #burası çalışmadı tekrar bak (+)
         session.pop("remember_login") 
     
     service = ConcertService()
