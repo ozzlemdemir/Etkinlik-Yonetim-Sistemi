@@ -1,5 +1,5 @@
 # Etkinlik Yönetim Sistemi
-[![Ask DeepWiki](https://devin.ai/assets/askdeepwiki.png)](https://deepwiki.com/ozzlemdemir/Etkinlik-Yonetim-Sistemi)
+
 
 Bu proje, kullanıcıların çeşitli etkinlikleri (konser, tiyatro vb.) görüntüleyebileceği, bilet satın alabileceği ve yönetebileceği bir web uygulamasıdır. Flask tabanlı olarak geliştirilmiştir ve bir admin paneli ile etkinliklerin ve kullanıcıların yönetilmesine olanak tanır.
 
