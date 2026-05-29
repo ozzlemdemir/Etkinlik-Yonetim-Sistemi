@@ -7,7 +7,7 @@ class Database:
             cls._instance = super(Database, cls).__new__(cls)
         return cls._instance
 
-    def __init__(self, host="localhost", database="EtkinlikApp", user="postgres", password="samsun55"):
+    def __init__(self, host="localhost", database="EtkinlikApp", user="postgres", password=""):
         if not hasattr(self, 'conn'): 
             self.host = host
             self.database = database
